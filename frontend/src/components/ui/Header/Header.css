@@ -1,14 +1,21 @@
+.Logo {
+    display: flex;
+    gap: 5px;
+}
+
 .header-container {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    height: 100px;
+    min-height: 100px;
     border-bottom: 1px solid #ddd;
+
 }
 
 .list {
     display: flex;
     gap: 45px;
+
 }
 
 .item a {
