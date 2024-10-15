@@ -8,50 +8,38 @@ import "./Header.css";
 
 const Header: React.FC = () => {
   return (
-    <header className="header">
-      <div className="header__container">
-        <div className="header__logo-nav">
-          <img src={logoName} alt="Logo" className="header__logo" />
-          <nav className="header__nav">
-            <ul className="header__nav-list">
-              <li className="header__nav-item">
-                <a href="/" className="header__nav-link">
-                  Home
-                </a>
-              </li>
-              <li className="header__nav-item">
-                <a href="/Shop" className="header__nav-link">
-                  Shop
-                </a>
-              </li>
-              <li className="header__nav-item">
-                <a href="/About" className="header__nav-link">
-                  About
-                </a>
-              </li>
-              <li className="header__nav-item">
-                <a href="/Contact" className="header__nav-link">
-                  Contact
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-        <div className="header__icons">
-          <a href="#" className="header__icon-link">
-            <img src={person} alt="User" className="header__icon" />
+    <header>
+      <nav className="header-container">
+        <img src={logoName} alt="Logo" className="header-logo" />
+        <ul className="list">
+          <li className="item">
+            <a href="/">Home</a>
+          </li>
+          <li className="item">
+            <a href="/Shop">Shop</a>
+          </li>
+          <li className="item">
+            <a href="/About">About</a>
+          </li>
+          <li className="item">
+            <a href="/Contact">Contact</a>
+          </li>
+        </ul>
+        <ul className="header-icons list">
+          <a href="#">
+            <img src={person} alt="User" />
           </a>
-          <a href="#" className="header__icon-link">
-            <img src={search} alt="Search" className="header__icon" />
+          <a href="#">
+            <img src={search} alt="Search" />
           </a>
-          <a href="#" className="header__icon-link">
-            <img src={heart} alt="Favorites" className="header__icon" />
+          <a href="#">
+            <img src={heart} alt="Favorites" />
           </a>
-          <a href="#" className="header__icon-link">
-            <img src={car} alt="Cart" className="header__icon" />
+          <a href="#">
+            <img src={car} alt="Cart" />
           </a>
-        </div>
-      </div>
+        </ul>
+      </nav>
     </header>
   );
 };
