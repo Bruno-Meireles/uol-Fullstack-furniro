@@ -32,13 +32,20 @@ const products = [
     description: "Minimalist flower pot",
     price: "R$ 5.000.000",
     originalPrice: "R$ 14.000.000",
-    // discount: "-50%",
     image: "/assets/images/potty.png",
     isNew: true,
   },
 ];
 
 const Product: React.FC = () => {
+  const handleSeeDetails = (productId: number) => {
+    console.log("Viewing details for product:", productId);
+  };
+
+  const handleShowMore = () => {
+    console.log("Showing more products");
+  };
+
   return (
     <section>
       <div className="product-content">
@@ -61,10 +68,18 @@ const Product: React.FC = () => {
                   <s>{product.originalPrice}</s>
                 </p>
               )}
-              <button className="button-details">See Details</button>
+              <button
+                className="button-details"
+                onClick={() => handleSeeDetails(product.id)}
+              >
+                See Details
+              </button>
             </div>
           ))}
         </div>
+        <button className="show-more" onClick={handleShowMore}>
+          Show More
+        </button>
       </div>
     </section>
   );
