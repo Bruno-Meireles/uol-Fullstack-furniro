@@ -1,8 +1,3 @@
-import person from "../../../assets/icons/person.svg";
-import car from "../../../assets/icons/car.svg";
-import heart from "../../../assets/icons/heart.svg";
-import search from "../../../assets/icons/search.svg";
-import logo from "../../../assets/icons/logo.svg";
 import "./Header.css";
 import { Link } from "react-router-dom";
 
@@ -12,10 +7,9 @@ const Header: React.FC = () => {
       <div className="content">
         <nav className="header-container">
           <div className="Logo">
-            <img src={logo} alt="Logo" className="logo" />
+            <img src="/assets/icons/logo.svg" alt="" />
             <h2>Furniro</h2>
           </div>
-
           <ul className="list">
             <li className="item">
               <Link to="/">Home</Link>
@@ -30,19 +24,18 @@ const Header: React.FC = () => {
               <Link to="/contact">Contact</Link>
             </li>
           </ul>
-
           <ul className="header-icons list">
             <a href="#">
-              <img src={person} alt="User" />
+              <img src="/assets/icons/person.svg" alt="User" />
             </a>
             <a href="#">
-              <img src={search} alt="Search" />
+              <img src="/assets/icons/search.svg" alt="Search" />
             </a>
             <a href="#">
-              <img src={heart} alt="Favorites" />
+              <img src="/assets/icons/heart.svg" alt="Favorites" />
             </a>
             <a href="#">
-              <img src={car} alt="Cart" />
+              <img src="/assets/icons/car.svg" alt="Cart" />
             </a>
           </ul>
         </nav>

@@ -1,0 +1,30 @@
+ .container {
+     position: relative;
+
+ }
+
+ .content {
+     position: relative;
+     overflow: hidden;
+ }
+
+
+ img[alt="Rectangle"] {
+     position: absolute;
+     top: 80%;
+     left: 72%;
+     transform: translate(-50%, -50%);
+     max-width: 643px;
+     height: 443px;
+     border-radius: 10px;
+ }
+
+ .overlay-text {
+     position: absolute;
+     top: 62%;
+     left: 70%;
+     transform: translate(-50%, -50%);
+     min-width: 546px;
+     padding: 20px;
+     color: #333333;
+ }

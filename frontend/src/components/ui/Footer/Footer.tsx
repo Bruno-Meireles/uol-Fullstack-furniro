@@ -54,10 +54,8 @@ const Footer: React.FC = () => {
             </div>
           </form>
         </nav>
-        {/* <div className="content-1240"> */}
-          <div className="separador"></div>
-          <p className="copy">2023 furino. All rights reverved</p>
-        {/* </div> */}
+        <div className="separador"></div>
+        <p className="copy">2023 furino. All rights reverved</p>
       </div>
     </footer>
   );

@@ -8,14 +8,12 @@
     justify-content: space-around;
     align-items: center;
     min-height: 100px;
-    border-bottom: 1px solid #ddd;
 
 }
 
 .list {
     display: flex;
     gap: 45px;
-
 }
 
 .item a {
@@ -24,8 +22,6 @@
 
 .header-icons {
     display: flex;
-
-
 }
 
 .header-icons img {
