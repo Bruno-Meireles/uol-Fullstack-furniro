@@ -9,10 +9,10 @@ const Banner: React.FC = () => {
           className="background-image"
         />
         <img src="/assets/images/rectangle.png" alt="Rectangle" />
-        <div className="overlay-text">
+        <a href="#" className="overlay-text">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit
           tellus, luctus nec ullamcorper mattis.
-        </div>
+        </a>
       </div>
     </section>
   );

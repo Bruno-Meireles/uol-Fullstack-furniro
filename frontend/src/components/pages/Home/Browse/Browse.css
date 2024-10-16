@@ -1,0 +1,33 @@
+.browser-section {
+    text-align: center;
+    padding: 40px 0;
+}
+
+.browser-title {
+    font-size: 28px;
+    padding: 40px 0;
+}
+
+.browser-container {
+    min-width: 1183px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.browser-item {
+    min-width: 381px;
+    text-align: center;
+}
+
+.browser-item img {
+    height: auto;
+    border-radius: 8px;
+}
+
+.browser-item p {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #333;
+    font-family: var();
+}
