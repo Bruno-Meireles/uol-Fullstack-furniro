@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./Product.css";
 interface Product {
   id: number;
@@ -79,14 +80,59 @@ const products: Product[] = [
     image: "/assets/images/potty.png",
     isNew: true,
   },
+  {
+    id: 9,
+    name: "Potty",
+    description: "Minimalist flower pot",
+    price: "R$ 5.000.000",
+    originalPrice: "R$ 14.000.000",
+    image: "/assets/images/potty.png",
+    isNew: true,
+  },
+  {
+    id: 10,
+    name: "Potty",
+    description: "Minimalist flower pot",
+    price: "R$ 5.000.000",
+    originalPrice: "R$ 14.000.000",
+    image: "/assets/images/potty.png",
+    isNew: true,
+  },
+  {
+    id: 11,
+    name: "Potty",
+    description: "Minimalist flower pot",
+    price: "R$ 5.000.000",
+    originalPrice: "R$ 14.000.000",
+    image: "/assets/images/potty.png",
+    isNew: true,
+  },
+  {
+    id: 12,
+    name: "Potty",
+    description: "Minimalist flower pot",
+    price: "R$ 5.000.000",
+    originalPrice: "R$ 14.000.000",
+    image: "/assets/images/potty.png",
+    isNew: true,
+  },
 ];
+
 const Product: React.FC = () => {
+  const [visibleProducts, setVisibleProducts] = useState(8);
+  const [isShowMore, setIsShowMore] = useState(false);
+
   const handleSeeDetails = (productId: number) => {
     console.log("Viewing details for product:", productId);
   };
 
   const handleShowMore = () => {
-    console.log("Showing more products");
+    if (isShowMore) {
+      setVisibleProducts(8);
+    } else {
+      setVisibleProducts(products.length);
+    }
+    setIsShowMore(!isShowMore);
   };
 
   return (
@@ -94,7 +140,7 @@ const Product: React.FC = () => {
       <div className="product-content">
         <h1>Our Products</h1>
         <div className="product-flex">
-          {products.map((product) => (
+          {products.slice(0, visibleProducts).map((product) => (
             <div className="product-card" key={product.id}>
               <div className="product-image">
                 <img src={product.image} alt={product.name} />
@@ -137,7 +183,7 @@ const Product: React.FC = () => {
           ))}
         </div>
         <button className="show-more" onClick={handleShowMore}>
-          Show More
+          {isShowMore ? "Show Less" : "Show More"}
         </button>
       </div>
     </section>

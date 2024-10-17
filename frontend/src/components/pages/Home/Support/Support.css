@@ -1,0 +1,22 @@
+.suport-content {
+    background-color: #FAF3EA;
+    min-width: 1440px;
+    min-height: 270px;
+}
+
+.suport-container {
+    display: flex;
+    justify-content: space-between;
+    margin: auto;
+    align-items: center;
+}
+
+.icon {
+    min-width: 60px;
+
+}
+
+.suport-container-itens {
+    display: flex;
+    flex-direction: column;
+}

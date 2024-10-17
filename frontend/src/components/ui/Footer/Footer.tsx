@@ -55,7 +55,7 @@ const Footer: React.FC = () => {
           </form>
         </nav>
         <div className="separador"></div>
-        <p className="copy">2023 furino. All rights reverved</p>
+        <p className="copy">2023 furnino. All rights reserved</p>
       </div>
     </footer>
   );

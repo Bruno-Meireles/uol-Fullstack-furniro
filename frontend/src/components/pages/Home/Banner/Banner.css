@@ -1,13 +1,11 @@
  .container {
      position: relative;
-
+     overflow: hidden;
  }
 
  .content {
      position: relative;
-     overflow: hidden;
  }
-
 
  img[alt="Rectangle"] {
      position: absolute;
@@ -16,7 +14,7 @@
      transform: translate(-50%, -50%);
      max-width: 643px;
      height: 443px;
-     border-radius: 10px;
+     border-radius: 10px 10px 0 0;
  }
 
  .overlay-text {
