@@ -59,21 +59,37 @@ const Product: React.FC = () => {
                   <span className="discount">{product.discount}</span>
                 )}
                 {product.isNew && <span className="new">New</span>}
+                <div className="hover-actions">
+                  <button
+                    className="button-details"
+                    onClick={() => handleSeeDetails(product.id)}
+                  >
+                    See Details
+                  </button>
+                  <div className="actions">
+                    <img
+                      src="/assets/icons/share.svg"
+                      alt="Share"
+                      className="actions-icon"
+                    />
+                    <a href="#">Share</a>
+                    <img src="/assets/icons/compare.svg" alt="Compare" />
+                    <a href="#">Compare</a>
+                    <img src="/assets/icons/like.svg" alt="Like" />
+                    <a href="#">Like</a>
+                  </div>
+                </div>
               </div>
-              <h3>{product.name}</h3>
-              <p>{product.description}</p>
-              <p className="price">{product.price}</p>
-              {product.originalPrice && (
-                <p className="original-price">
-                  <s>{product.originalPrice}</s>
-                </p>
-              )}
-              <button
-                className="button-details"
-                onClick={() => handleSeeDetails(product.id)}
-              >
-                See Details
-              </button>
+              <h3 className="product-title">{product.name}</h3>
+              <p className="product-sub-title">{product.description}</p>
+              <div className="price-container">
+                <p className="price">{product.price}</p>
+                {product.originalPrice && (
+                  <p className="original-price">
+                    <s>{product.originalPrice}</s>
+                  </p>
+                )}
+              </div>
             </div>
           ))}
         </div>
