@@ -1,47 +1,65 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateProductDto } from './dto/create-product.dto';
-
-import { Product } from '@prisma/client';
+import { product } from '@prisma/client';
 import { UpdateProductDto } from './dto/updateProductDto';
 
 @Injectable()
 export class ProductService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(productData: CreateProductDto): Promise<Product> {
+  async create(createProductDto: CreateProductDto): Promise<product> {
     return this.prisma.product.create({
       data: {
-        ...productData,
+        ...createProductDto,
         created_date: new Date(),
         updated_date: new Date(),
       },
     });
   }
 
-  async findAll(): Promise<Product[]> {
-    return this.prisma.product.findMany();
+  async findAll(): Promise<product[]> {
+    return this.prisma.product.findMany({
+      include: {
+        category: true,
+      },
+    });
   }
 
-  async findOne(id: number): Promise<Product> {
+  async findOne(id: number): Promise<product> {
     return this.prisma.product.findUnique({
       where: { id },
     });
   }
 
-  async update(id: number, productData: UpdateProductDto): Promise<Product> {
+  async update(id: number, productData: UpdateProductDto): Promise<product> {
     return this.prisma.product.update({
       where: { id },
       data: {
         ...productData,
-        updated_date: new Date(), // Atualiza a data de modificação
+        updated_date: new Date(),
       },
     });
   }
 
-  async remove(id: number): Promise<Product> {
-    return this.prisma.product.delete({
+  async remove(id: number): Promise<product> {
+    const productToDelete = await this.prisma.product.findUnique({
       where: { id },
     });
+
+    if (!productToDelete) {
+      throw new Error('Produto não encontrado');
+    }
+
+    try {
+      return this.prisma.product.delete({
+        where: { id },
+      });
+    } catch (error) {
+      console.error('Erro ao deletar produto:', error);
+      throw new InternalServerErrorException(
+        'Erro ao tentar excluir o produto',
+      );
+    }
   }
 }

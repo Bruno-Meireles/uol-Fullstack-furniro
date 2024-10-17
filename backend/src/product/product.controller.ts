@@ -6,38 +6,50 @@ import {
   Delete,
   Body,
   Param,
+  NotFoundException,
+  InternalServerErrorException,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
-
-import { Product } from '@prisma/client';
 import { UpdateProductDto } from './dto/updateProductDto';
+import { product } from '@prisma/client';
 
 @Controller('products')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Post()
-  async create(@Body() createProductDto: CreateProductDto): Promise<Product> {
+  async create(@Body() createProductDto: CreateProductDto): Promise<product> {
     return this.productService.create(createProductDto);
   }
 
   @Get()
-  async findAll(): Promise<Product[]> {
+  async findAll(): Promise<product[]> {
     return this.productService.findAll();
   }
 
   @Put(':id')
   async update(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number, 
     @Body() updateProductDto: UpdateProductDto,
-  ): Promise<Product> {
-    const productId = parseInt(id, 10); 
-    return this.productService.update(productId, updateProductDto);
+  ): Promise<product> {
+    return this.productService.update(id, updateProductDto);
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: number): Promise<Product> {
-    return this.productService.remove(id);
+  async delete(@Param('id', ParseIntPipe) id: number): Promise<product> {
+    try {
+      const deletedProduct = await this.productService.remove(id);
+      if (!deletedProduct) {
+        throw new NotFoundException(`Produto com ID ${id} não encontrado`);
+      }
+      return deletedProduct;
+    } catch (error) {
+      console.error('Erro ao tentar excluir o produto:', error);
+      throw new InternalServerErrorException(
+        'Erro ao tentar excluir o produto',
+      );
+    }
   }
 }
