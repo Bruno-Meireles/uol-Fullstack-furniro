@@ -3,6 +3,7 @@
     width: 100%;
     margin: auto;
     text-align: center;
+
 }
 
 .product-flex {
@@ -10,12 +11,13 @@
     flex-wrap: wrap;
     justify-content: space-between;
     margin-top: 20px;
+    gap: 30px;
 }
 
 .product-card {
     text-align: start;
     flex: 0 1 285px;
-    height: 446px;
+    min-height: 446px;
     background: #F4F5F7;
 }
 
@@ -37,8 +39,6 @@
 .product-card .price,
 .product-card .original-price s {
     display: flex;
-    /* flex-direction: column; */
-    gap: 10px;
     line-height: 2;
 
 }
@@ -83,6 +83,7 @@
 h3 {
     font-size: 1.2rem;
     color: #3A3A3A;
+    padding-top: 10px;
 }
 
 .price-container {

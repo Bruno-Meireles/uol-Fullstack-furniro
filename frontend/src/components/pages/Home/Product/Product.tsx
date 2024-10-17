@@ -1,6 +1,16 @@
 import "./Product.css";
+interface Product {
+  id: number;
+  name: string;
+  description: string;
+  price: string;
+  originalPrice?: string;
+  discount?: string;
+  image: string;
+  isNew?: boolean;
+}
 
-const products = [
+const products: Product[] = [
   {
     id: 1,
     name: "Sytherine",
@@ -35,8 +45,41 @@ const products = [
     image: "/assets/images/potty.png",
     isNew: true,
   },
+  {
+    id: 5,
+    name: "Sytherine",
+    description: "Stylish cafe chair",
+    price: "R$ 2.500.000",
+    originalPrice: "R$ 3.500.000",
+    discount: "-30%",
+    image: "/assets/images/Syltherine.png",
+  },
+  {
+    id: 6,
+    name: "Leviosa",
+    description: "Stylish cafe chair",
+    price: "R$ 2.500.000",
+    image: "/assets/images/leviosa.png",
+  },
+  {
+    id: 7,
+    name: "Respira",
+    description: "Luxury big sofa",
+    price: "R$ 7.000.000",
+    originalPrice: "R$ 14.000.000",
+    discount: "-50%",
+    image: "/assets/images/respira.png",
+  },
+  {
+    id: 8,
+    name: "Potty",
+    description: "Minimalist flower pot",
+    price: "R$ 5.000.000",
+    originalPrice: "R$ 14.000.000",
+    image: "/assets/images/potty.png",
+    isNew: true,
+  },
 ];
-
 const Product: React.FC = () => {
   const handleSeeDetails = (productId: number) => {
     console.log("Viewing details for product:", productId);
