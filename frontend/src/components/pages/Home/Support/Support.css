@@ -1,14 +1,18 @@
 .suport-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     background-color: #FAF3EA;
-    min-width: 1440px;
+    width: 1440px;
     min-height: 270px;
+    margin: auto;
 }
 
 .suport-container {
     display: flex;
-    justify-content: space-between;
-    margin: auto;
     align-items: center;
+    justify-content: space-evenly;
+    gap: 10px;
 }
 
 .icon {
@@ -19,4 +23,14 @@
 .suport-container-itens {
     display: flex;
     flex-direction: column;
+    line-height: 1.8;
+}
+
+.suporte-title {
+    font-size: 25px;
+
+}
+
+.suporte-p {
+    color: #898989;
 }

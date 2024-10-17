@@ -185,6 +185,7 @@ h3 {
     font-size: 1rem;
     cursor: pointer;
     transition: opacity 0.3s ease;
+    margin-bottom: 5%;
 }
 
 .product-card:hover .button-details {

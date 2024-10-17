@@ -19,6 +19,9 @@ import { product } from '@prisma/client';
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
+
+  //tirar promisse 
+
   @Post()
   async create(@Body() createProductDto: CreateProductDto): Promise<product> {
     return this.productService.create(createProductDto);
