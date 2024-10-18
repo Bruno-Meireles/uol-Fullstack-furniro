@@ -28,6 +28,11 @@ nav a {
   font-weight: var(--font-weight-500);
 }
 
+span {
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-500);
+}
+
 button {
   font-family: var(--font-family);
   font-weight: var(--font-weight-600);
@@ -36,6 +41,11 @@ button {
 p {
   font-family: var(--font-family);
   font-weight: var(--font-weight-400);
+}
+
+h4 {
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-600);
 }
 
 .content {

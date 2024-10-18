@@ -9,20 +9,20 @@
 
  img[alt="Rectangle"] {
      position: absolute;
-     top: 80%;
+     bottom: 7px;
      left: 72%;
-     transform: translate(-50%, -50%);
-     max-width: 643px;
-     height: 443px;
+     transform: translate(-50%, 0%);
      border-radius: 10px 10px 0 0;
  }
 
  .overlay-text {
      position: absolute;
-     top: 62%;
-     left: 70%;
+     top: 56%;
+     left: 72%;
      transform: translate(-50%, -50%);
      min-width: 546px;
-     padding: 20px;
      color: #333333;
+     font-family: var(--font-family);
+     font-weight: var(--font-weight-500);
+     font-size: 18px;
  }
