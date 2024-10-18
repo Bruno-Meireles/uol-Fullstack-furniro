@@ -1,14 +1,14 @@
-import Banner from "./Banner/Banner";
+import Banner from "../../Banner/Banner";
 import Browser from "./Browse/Browse";
-import Product from "./Product/Product";
-import Support from "./Support/Support";
+import Products from "./ProductsList/ProductsList"; 
+import Support from "../../Support/Support";
 
 const Home: React.FC = () => {
   return (
     <div>
       <Banner />
       <Browser />
-      <Product />
+      <Products title={"Our Products"}  /> 
       <Support />
     </div>
   );
