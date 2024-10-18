@@ -24,9 +24,9 @@
     border-radius: 8px;
 }
 
-.browser-item p {
+.browser-item h4 {
     margin-top: 10px;
-    font-size: 16px;
+    font-size: 24px;
     color: #333;
     font-family: var(--font-family);
     font-weight: var(--font-weight-600);

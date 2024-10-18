@@ -2,21 +2,16 @@ import "./Browse.css";
 
 interface BrowseItemProps {
   imageUrl: string;
-  paragraph: string;
+  title: string;
   link: string;
 }
-const BrowseItem: React.FC<BrowseItemProps> = ({
-  imageUrl,
-  paragraph,
-  link,
-}) => {
+
+const BrowseItem: React.FC<BrowseItemProps> = ({ imageUrl, title, link }) => {
   return (
-    <div className="browser-item">
-      <a href={link}>
-        <img src={imageUrl} alt={paragraph} className="browser-image" />
-        <p className="browser-paragraph">{paragraph}</p>
-      </a>
-    </div>
+    <a href={link} className="browser-item">
+      <img src={imageUrl} alt={title} className="browser-image" />
+      <h4 className="browser-title">{title}</h4>
+    </a>
   );
 };
 
@@ -27,17 +22,17 @@ const Browse: React.FC = () => {
       <div className="browser-container">
         <BrowseItem
           imageUrl="/assets/images/Mask-table.png"
-          paragraph="Dining"
+          title="Dining"
           link="#"
         />
         <BrowseItem
           imageUrl="/assets/images/Image-room.png"
-          paragraph="Living"
+          title="Living"
           link="#"
         />
         <BrowseItem
           imageUrl="/assets/images/Mask-plant.png"
-          paragraph="Bedroom"
+          title="Bedroom"
           link="#"
         />
       </div>

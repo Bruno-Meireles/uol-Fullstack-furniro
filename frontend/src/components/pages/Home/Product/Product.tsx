@@ -33,6 +33,7 @@ const Product: React.FC = () => {
     console.log("Viewing details for product:", productId);
   };
 
+  
   const handleShowMore = () => {
     if (isShowMore) {
       setVisibleProducts(8);
