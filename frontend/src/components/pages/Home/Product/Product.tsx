@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import "./Product.css";
+
 interface Product {
   id: number;
   name: string;
@@ -7,120 +9,25 @@ interface Product {
   price: string;
   originalPrice?: string;
   discount?: string;
-  image: string;
+  image_link: string;
   isNew?: boolean;
 }
 
-const products: Product[] = [
-  {
-    id: 1,
-    name: "Sytherine",
-    description: "Stylish cafe chair",
-    price: "R$ 2.500.000",
-    originalPrice: "R$ 3.500.000",
-    discount: "-30%",
-    image: "/assets/images/Syltherine.png",
-  },
-  {
-    id: 2,
-    name: "Leviosa",
-    description: "Stylish cafe chair",
-    price: "R$ 2.500.000",
-    image: "/assets/images/leviosa.png",
-  },
-  {
-    id: 3,
-    name: "Respira",
-    description: "Luxury big sofa",
-    price: "R$ 7.000.000",
-    originalPrice: "R$ 14.000.000",
-    discount: "-50%",
-    image: "/assets/images/respira.png",
-  },
-  {
-    id: 4,
-    name: "Potty",
-    description: "Minimalist flower pot",
-    price: "R$ 5.000.000",
-    originalPrice: "R$ 14.000.000",
-    image: "/assets/images/potty.png",
-    isNew: true,
-  },
-  {
-    id: 5,
-    name: "Sytherine",
-    description: "Stylish cafe chair",
-    price: "R$ 2.500.000",
-    originalPrice: "R$ 3.500.000",
-    discount: "-30%",
-    image: "/assets/images/Syltherine.png",
-  },
-  {
-    id: 6,
-    name: "Leviosa",
-    description: "Stylish cafe chair",
-    price: "R$ 2.500.000",
-    image: "/assets/images/leviosa.png",
-  },
-  {
-    id: 7,
-    name: "Respira",
-    description: "Luxury big sofa",
-    price: "R$ 7.000.000",
-    originalPrice: "R$ 14.000.000",
-    discount: "-50%",
-    image: "/assets/images/respira.png",
-  },
-  {
-    id: 8,
-    name: "Potty",
-    description: "Minimalist flower pot",
-    price: "R$ 5.000.000",
-    originalPrice: "R$ 14.000.000",
-    image: "/assets/images/potty.png",
-    isNew: true,
-  },
-  {
-    id: 9,
-    name: "Potty",
-    description: "Minimalist flower pot",
-    price: "R$ 5.000.000",
-    originalPrice: "R$ 14.000.000",
-    image: "/assets/images/potty.png",
-    isNew: true,
-  },
-  {
-    id: 10,
-    name: "Potty",
-    description: "Minimalist flower pot",
-    price: "R$ 5.000.000",
-    originalPrice: "R$ 14.000.000",
-    image: "/assets/images/potty.png",
-    isNew: true,
-  },
-  {
-    id: 11,
-    name: "Potty",
-    description: "Minimalist flower pot",
-    price: "R$ 5.000.000",
-    originalPrice: "R$ 14.000.000",
-    image: "/assets/images/potty.png",
-    isNew: true,
-  },
-  {
-    id: 12,
-    name: "Potty",
-    description: "Minimalist flower pot",
-    price: "R$ 5.000.000",
-    originalPrice: "R$ 14.000.000",
-    image: "/assets/images/potty.png",
-    isNew: true,
-  },
-];
-
 const Product: React.FC = () => {
+  const [products, setProducts] = useState<Product[]>([]);
   const [visibleProducts, setVisibleProducts] = useState(8);
   const [isShowMore, setIsShowMore] = useState(false);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/products")
+      .then((response) => {
+        setProducts(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching products:", error);
+      });
+  }, []);
 
   const handleSeeDetails = (productId: number) => {
     console.log("Viewing details for product:", productId);
@@ -138,12 +45,12 @@ const Product: React.FC = () => {
   return (
     <section>
       <div className="product-content">
-        <h1 className="product-title-">Our Products</h1>
+        <h1 className="product-title-main">Our Products</h1>
         <div className="product-flex">
           {products.slice(0, visibleProducts).map((product) => (
             <div className="product-card" key={product.id}>
               <div className="product-image">
-                <img src={product.image} alt={product.name} />
+                <img src={product.image_link} alt={product.name} />
                 {product.discount && (
                   <span className="discount">{product.discount}</span>
                 )}

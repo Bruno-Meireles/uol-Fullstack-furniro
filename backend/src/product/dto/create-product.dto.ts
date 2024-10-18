@@ -41,8 +41,8 @@ export class CreateProductDto {
   is_new?: boolean;
 
   @IsString()
-  image_link: string;
+  image_link?: string;
 
   @IsString()
-  other_images_link: string;
+  other_images_link?: string;
 }
