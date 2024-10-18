@@ -7,10 +7,10 @@ interface Product {
   name: string;
   description: string;
   price: string;
-  originalPrice?: string;
-  discount?: string;
+  discount_price?: string;
+  discount_percent?: string;
   image_link: string;
-  isNew?: boolean;
+  is_new?: boolean;
 }
 
 const Product: React.FC = () => {
@@ -51,10 +51,12 @@ const Product: React.FC = () => {
             <div className="product-card" key={product.id}>
               <div className="product-image">
                 <img src={product.image_link} alt={product.name} />
-                {product.discount && (
-                  <span className="discount">{product.discount}</span>
+                {product.discount_percent && (
+                  <span className="discount_percent ">
+                    -{product.discount_percent}%
+                  </span>
                 )}
-                {product.isNew && <span className="new">New</span>}
+                {product.is_new && <span className="new">New</span>}
                 <div className="hover-actions">
                   <button
                     className="button-details"
@@ -80,9 +82,9 @@ const Product: React.FC = () => {
               <p className="product-sub-title">{product.description}</p>
               <div className="price-container">
                 <p className="price">{product.price}</p>
-                {product.originalPrice && (
+                {product.discount_price && (
                   <p className="original-price">
-                    <s>{product.originalPrice}</s>
+                    <s>{product.discount_price}</s>
                   </p>
                 )}
               </div>
