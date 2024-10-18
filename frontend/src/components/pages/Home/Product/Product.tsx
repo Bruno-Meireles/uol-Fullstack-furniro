@@ -138,7 +138,7 @@ const Product: React.FC = () => {
   return (
     <section>
       <div className="product-content">
-        <h1 className="product-title-main">Our Products</h1>
+        <h1 className="product-title-">Our Products</h1>
         <div className="product-flex">
           {products.slice(0, visibleProducts).map((product) => (
             <div className="product-card" key={product.id}>
