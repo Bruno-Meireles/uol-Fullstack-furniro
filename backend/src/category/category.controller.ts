@@ -21,6 +21,6 @@ export class CategoryController {
 
   @Delete(':id')
   async delete(@Param('id') id: number): Promise<category> {
-    return this.categoryService.remove(id);
+    return this.categoryService.remove(Number(id));
   }
 }
