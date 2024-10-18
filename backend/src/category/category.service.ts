@@ -21,18 +21,22 @@ export class CategoryService {
   }
 
   async findOne(id: number): Promise<category> {
-    const foundCategory = await this.prisma.category.findUnique({
+    const category = await this.prisma.category.findUnique({
       where: { id },
     });
-
-    if (!foundCategory) {
+    if (!category) {
       throw new NotFoundException(`Category with ID ${id} not found`);
     }
-
-    return foundCategory;
+    return category;
   }
 
   async remove(id: number): Promise<category> {
+    const categoryToDelete = await this.prisma.category.findUnique({
+      where: { id },
+    });
+    if (!categoryToDelete) {
+      throw new NotFoundException(`Category with ID ${id} not found`);
+    }
     return this.prisma.category.delete({
       where: { id },
     });
