@@ -1,5 +1,21 @@
-const Product = (props: IProps) => {
-  const { product, onSeeDetails } = props; 
+interface Product {
+  id: number;
+  name: string;
+  description: string;
+  price: string;
+  discount_price?: string;
+  discount_percent?: string;
+  image_link: string;
+  is_new?: boolean;
+}
+
+interface IProps {
+  product: Product;
+  onSeeDetails: (productId: number) => void;
+}
+
+const Product: React.FC<IProps> = (props) => {
+  const { product, onSeeDetails } = props;
 
   return (
     <div className="product-card" key={product.id}>
@@ -12,21 +28,35 @@ const Product = (props: IProps) => {
         <div className="hover-actions">
           <button
             className="button-details"
-            onClick={() => onSeeDetails(product.id)} 
+            onClick={() => onSeeDetails(product.id)}
           >
             See Details
           </button>
           <div className="actions">
-            <img
-              src="/assets/icons/share.svg"
-              alt="Share"
-              className="actions-icon"
-            />
-            <a href="#">Share</a>
-            <img src="/assets/icons/compare.svg" alt="Compare" />
-            <a href="#">Compare</a>
-            <img src="/assets/icons/like.svg" alt="Like" />
-            <a href="#">Like</a>
+            <div className="action">
+              <img
+                src="/assets/icons/share.svg"
+                alt="Share"
+                className="actions-icon"
+              />
+              <span>Share</span>
+            </div>
+            <div className="action">
+              <img
+                src="/assets/icons/compare.svg"
+                alt="Compare"
+                className="actions-icon"
+              />
+              <span>Compare</span>
+            </div>
+            <div className="action">
+              <img
+                src="/assets/icons/like.svg"
+                alt="Like"
+                className="actions-icon"
+              />
+              <span>Like</span>
+            </div>
           </div>
         </div>
       </div>
@@ -52,21 +82,5 @@ const Product = (props: IProps) => {
     </div>
   );
 };
-
-interface IProps {
-  product: Product;
-  onSeeDetails: (productId: number) => void;
-}
-
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: string;
-  discount_price?: string;
-  discount_percent?: string;
-  image_link: string;
-  is_new?: boolean;
-}
 
 export default Product;

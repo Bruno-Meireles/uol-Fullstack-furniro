@@ -1,10 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Shop from "./components/pages/Shop/Shop";
-import About from "./components/pages/About.tsx/About";
-import Contact from "./components/pages/Contact/Contact";
+import Shop from "./pages/Shop/Shop";
+import About from "./pages/About.tsx/About";
+import Contact from "./pages/Contact/Contact";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
-import Home from "./components/pages/Home";
+import Home from "./pages/Home";
 
 const App: React.FC = () => {
   return (

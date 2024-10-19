@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./ProductList.css";
-import Product from "../../../Product";
+import Product from "../../../components/ProductCard/ProductCard";
 
-
-const Products = (props: IProps): JSX.Element => {
+const ProductsList: React.FC<IProps> = ({ title, limit = 8 }) => {
   const [products, setProducts] = useState<Product[]>([]);
- 
 
   useEffect(() => {
     axios
@@ -21,30 +19,24 @@ const Products = (props: IProps): JSX.Element => {
 
   const handleSeeDetails = (productId: number) => {
     console.log("Viewing details for product:", productId);
-   
   };
 
   const handleShowMore = () => {
-      console.log("products");
-   
+    console.log("Show More button clicked");
   };
 
   return (
     <section>
       <div className="product-content">
-        <h1 className="product-title-main">{props.title}</h1>
+        <h1 className="product-title-main">{title}</h1>
         <div className="product-flex">
-          {products.slice(0, 8).map(
-            (
-              product 
-            ) => (
-              <Product
-                key={product.id}
-                product={product}
-                onSeeDetails={handleSeeDetails}
-              />
-            )
-          )}
+          {products.slice(0, limit).map((product) => (
+            <Product
+              key={product.id}
+              product={product}
+              onSeeDetails={handleSeeDetails}
+            />
+          ))}
         </div>
         <button className="show-more" onClick={handleShowMore}>
           Show More
@@ -53,9 +45,9 @@ const Products = (props: IProps): JSX.Element => {
     </section>
   );
 };
-
 export interface IProps {
-  title: string; 
+  title: string;
+  limit?: number;
 }
 
-export default Products;
+export default ProductsList;

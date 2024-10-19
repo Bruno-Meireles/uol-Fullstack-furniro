@@ -115,6 +115,10 @@ h3 {
     margin-left: 5px;
 }
 
+.price-value-discount {
+    color: black;
+}
+
 .price {
     font-family: var(--font-family);
     font-weight: var(--font-weight-600);
@@ -166,7 +170,7 @@ h3 {
 .actions {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
     width: 100%;
     color: white;
     margin-top: 60%;
@@ -182,6 +186,12 @@ h3 {
 .actions-icon {
     width: 1rem;
     height: 1rem;
+}
+
+.action {
+    display: flex;
+    align-items: center;
+    gap: 3px;
 }
 
 .button-details:hover {

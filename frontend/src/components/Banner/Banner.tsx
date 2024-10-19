@@ -8,7 +8,11 @@ const Banner: React.FC = () => {
           alt="Image Flower"
           className="background-image"
         />
-        <img src="/assets/images/rectangle.png" alt="Rectangle" />
+        <img
+          className="Rectangle"
+          src="/assets/images/rectangle.png"
+          alt="Rectangle"
+        />
         <a href="#" className="overlay-text">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit
           tellus, luctus nec ullamcorper mattis.
