@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "./ProductList.css";
 import Product from "../../../components/ProductCard/ProductCard";
+import { Link } from "react-router-dom";
 
 const ProductsList: React.FC<IProps> = ({ title, limit = 8 }) => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -19,6 +20,7 @@ const ProductsList: React.FC<IProps> = ({ title, limit = 8 }) => {
 
   const handleSeeDetails = (productId: number) => {
     console.log("Viewing details for product:", productId);
+    
   };
 
   const handleShowMore = () => {
@@ -38,15 +40,17 @@ const ProductsList: React.FC<IProps> = ({ title, limit = 8 }) => {
             />
           ))}
         </div>
-        <button className="show-more" onClick={handleShowMore}>
-          Show More
-        </button>
+        <Link to={"/shop"}>
+          <button className="show-more" onClick={handleShowMore}>
+            Show More
+          </button>
+        </Link>
       </div>
     </section>
   );
 };
 export interface IProps {
-  title: string;
+  title?: string;
   limit?: number;
 }
 

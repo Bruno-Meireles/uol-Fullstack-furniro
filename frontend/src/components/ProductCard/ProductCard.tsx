@@ -1,19 +1,3 @@
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: string;
-  discount_price?: string;
-  discount_percent?: string;
-  image_link: string;
-  is_new?: boolean;
-}
-
-interface IProps {
-  product: Product;
-  onSeeDetails: (productId: number) => void;
-}
-
 const Product: React.FC<IProps> = (props) => {
   const { product, onSeeDetails } = props;
 
@@ -82,5 +66,21 @@ const Product: React.FC<IProps> = (props) => {
     </div>
   );
 };
+
+interface Product {
+  id: number;
+  name: string;
+  description: string;
+  price: string;
+  discount_price?: string;
+  discount_percent?: string;
+  image_link: string;
+  is_new?: boolean;
+}
+
+interface IProps {
+  product: Product;
+  onSeeDetails: (productId: number) => void;
+}
 
 export default Product;

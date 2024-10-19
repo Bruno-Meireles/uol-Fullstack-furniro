@@ -5,6 +5,7 @@ import Contact from "./pages/Contact/Contact";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import Home from "./pages/Home";
+import SingleProductPage from "./pages/SingleProductPage/SingleProductPage";
 
 const App: React.FC = () => {
   return (
@@ -16,6 +17,7 @@ const App: React.FC = () => {
         <Route path="/product" element={<Shop />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/singleProductPage" element={<SingleProductPage />} />
       </Routes>
       <Footer />
     </Router>
