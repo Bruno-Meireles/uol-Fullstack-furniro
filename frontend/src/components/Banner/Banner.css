@@ -1,18 +1,22 @@
  .container {
      position: relative;
-     overflow: hidden;
  }
 
  .content {
      position: relative;
  }
 
- img[alt="Rectangle"] {
+ .background-image {
+     min-height: 600px;
+ }
+
+ .Rectangle {
      position: absolute;
-     bottom: 7px;
-     left: 72%;
-     transform: translate(-50%, 0%);
+     bottom: 1%;
+     left: 50%;
      border-radius: 10px 10px 0 0;
+     height: 392px;
+     width: 643px;
  }
 
  .overlay-text {

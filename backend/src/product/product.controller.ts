@@ -19,9 +19,6 @@ import { product } from '@prisma/client';
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
-
-  //tirar promisse ?
-
   @Post()
   async create(@Body() createProductDto: CreateProductDto): Promise<product> {
     return this.productService.create(createProductDto);
@@ -34,7 +31,7 @@ export class ProductController {
 
   @Put(':id')
   async update(
-    @Param('id', ParseIntPipe) id: number, 
+    @Param('id', ParseIntPipe) id: number,
     @Body() updateProductDto: UpdateProductDto,
   ): Promise<product> {
     return this.productService.update(id, updateProductDto);

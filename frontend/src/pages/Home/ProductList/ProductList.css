@@ -23,6 +23,7 @@
     flex: 0 1 285px;
     min-height: 446px;
     background: #F4F5F7;
+    transition: transform 0.3s ease, background-color 0.3s ease, opacity 0.3s ease;
 }
 
 .product-card:hover {
@@ -107,14 +108,29 @@ h3 {
     padding-left: 15px;
 }
 
-.price {
+.price-value-discount {
     font-size: 1rem;
     font-weight: bold;
     color: #3A3A3A;
+    margin-left: 5px;
 }
 
-.original-price s {
+.price-value-discount {
+    color: black;
+}
+
+.price {
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-600);
+}
+
+.price-value {
+    margin-left: 5px;
+}
+
+.original-price {
     color: #B0B0B0;
+    text-decoration: line-through;
 }
 
 .button-details {
@@ -130,7 +146,7 @@ h3 {
     left: 50%;
     transform: translate(-50%, -50%);
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease, background-color 0.3s ease, color 0.3s ease;
 }
 
 .hover-actions {
@@ -154,7 +170,7 @@ h3 {
 .actions {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
     width: 100%;
     color: white;
     margin-top: 60%;
@@ -172,6 +188,12 @@ h3 {
     height: 1rem;
 }
 
+.action {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
 .button-details:hover {
     color: #FFFFFF;
     background-color: #B88E2F;
@@ -187,7 +209,7 @@ h3 {
     border-radius: 4px;
     font-size: 1rem;
     cursor: pointer;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease, background-color 0.3s ease, color 0.3s ease;
     margin-bottom: 5%;
 }
 
