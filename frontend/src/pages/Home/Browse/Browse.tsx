@@ -1,11 +1,5 @@
 import "./Browse.css";
 
-interface BrowseItemProps {
-  imageUrl: string;
-  title: string;
-  link: string;
-}
-
 const BrowseItem: React.FC<BrowseItemProps> = ({ imageUrl, title, link }) => {
   return (
     <a href={link} className="browser-item">
@@ -39,5 +33,11 @@ const Browse: React.FC = () => {
     </section>
   );
 };
+
+interface BrowseItemProps {
+  imageUrl: string;
+  title: string;
+  link: string;
+}
 
 export default Browse;

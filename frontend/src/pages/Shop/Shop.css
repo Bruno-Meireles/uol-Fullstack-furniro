@@ -1,0 +1,28 @@
+.pagination-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5rem;
+    padding: 3rem 0;
+
+}
+
+.pagination-button {
+    width: 3.75rem;
+    height: 3.75rem;
+    font-size: 1.25rem;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-400);
+}
+
+.pagination-button:hover {
+    background-color: #B88E2F;
+    color: #FFFFFF;
+}
+
+.pagination-button-next {
+    width: 6.125rem;
+}

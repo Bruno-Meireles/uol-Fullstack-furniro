@@ -1,0 +1,73 @@
+ .container {
+     position: relative;
+ }
+
+ .content {
+     position: relative;
+ }
+
+ .background-image-home {
+     height: 600px;
+ }
+
+
+ .Rectangle {
+     position: absolute;
+     bottom: 1%;
+     left: 50%;
+     border-radius: 10px 10px 0 0;
+     height: 392px;
+     width: 643px;
+ }
+
+ .overlay-text {
+     position: absolute;
+     top: 56%;
+     left: 72%;
+     transform: translate(-50%, -50%);
+     min-width: 546px;
+     color: #333333;
+     font-family: var(--font-family);
+     font-weight: var(--font-weight-500);
+     font-size: 18px;
+ }
+
+ .banner-title {
+     display: flex;
+     justify-content: center;
+     position: absolute;
+     top: 50%;
+     left: 43%;
+     font-size: 3rem;
+     font-family: var(--font-family);
+     font-weight: var(--font-weight-500);
+
+ }
+
+ .banner-link-home {
+     position: absolute;
+     top: 70%;
+     left: 43%;
+     font-size: 24px;
+     font-family: var(--font-family);
+     font-weight: var(--font-weight-500);
+
+ }
+
+ .banner-icon {
+     position: absolute;
+     top: 71%;
+     left: 48.5%;
+     min-width: 14px;
+ }
+
+ .banner-link-shop {
+     position: absolute;
+     top: 70%;
+     left: 50%;
+     font-size: 24px;
+     font-family: var(--font-family);
+     font-weight: var(--font-weight-300);
+
+
+ }

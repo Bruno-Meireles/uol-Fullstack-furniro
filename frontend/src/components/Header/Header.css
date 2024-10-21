@@ -19,7 +19,7 @@ header {
 
 .list {
     display: flex;
-    gap: 45px;
+    gap: 60px;
 }
 
 .item a {
