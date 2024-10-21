@@ -11,10 +11,12 @@ const BannerItem: React.FC<IPropsBanner> = ({
   icon,
 }) => {
   const className = type === "tipo1" ? "type1" : "type2";
+  const imageClass =
+    type === "tipo1" ? "background-image-home" : "background-image-shop";
   return (
     <section className={`container ${className}`}>
       <div className="content">
-        <img src={imgUrl} alt={title} className="background-image-home" />
+        <img src={imgUrl} alt={title} className={imageClass} />
 
         {type === "tipo1" && (
           <img className="Rectangle" src={rectangleSrc} alt={title} />

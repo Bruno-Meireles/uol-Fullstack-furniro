@@ -40,25 +40,29 @@ const Shop: React.FC = () => {
       />
 
       <div className="filters">
-        <button>
-          <img src="assets/icons/filtering.svg" alt="Filter Icon" />
-          Filter
-        </button>
-        <img src="assets/icons/grid-big-round.svg" alt=" Grid Icon" />
-        <img src="assets/icons/view-list.svg" alt="View list Icon" />
-        <img src="assets/icons/line.svg" alt=" Icon Bar" />
-        <div className="pagination-info">Showing 1–16 of 32 results</div>
-        <div className="controls">
-          <label htmlFor="Show">Show</label>
-          <input
-            type="number"
-            name="show"
-            id="show"
-            min={1}
-            defaultValue={16}
-          />
-          <label htmlFor="Short">Short by</label>
-          <input type="text" placeholder="Default" />
+        <div className="content">
+          <div className="filter">
+            <button>
+              <img src="assets/icons/filtering.svg" alt="Filter Icon" />
+              Filter
+            </button>
+            <img src="assets/icons/grid-big-round.svg" alt=" Grid Icon" />
+            <img src="assets/icons/view-list.svg" alt="View list Icon" />
+            <img src="assets/icons/line.svg" alt=" Icon Bar" />
+            <div className="pagination-info">Showing 1–16 of 32 results</div>
+            <div className="controls">
+              <label htmlFor="Show">Show</label>
+              <input
+                type="number"
+                name="show"
+                id="show"
+                min={1}
+                defaultValue={16}
+              />
+              <label htmlFor="Short">Short by</label>
+              <input type="text" placeholder="Default" />
+            </div>
+          </div>
         </div>
       </div>
 

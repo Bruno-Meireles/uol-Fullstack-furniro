@@ -10,6 +10,9 @@
      height: 600px;
  }
 
+ .background-image-shop {
+     min-height: 516px;
+ }
 
  .Rectangle {
      position: absolute;
@@ -36,7 +39,7 @@
      display: flex;
      justify-content: center;
      position: absolute;
-     top: 50%;
+     top: 46%;
      left: 43%;
      font-size: 3rem;
      font-family: var(--font-family);
@@ -46,9 +49,9 @@
 
  .banner-link-home {
      position: absolute;
-     top: 70%;
+     top: 62%;
      left: 43%;
-     font-size: 24px;
+     font-size: 1rem;
      font-family: var(--font-family);
      font-weight: var(--font-weight-500);
 
@@ -56,16 +59,15 @@
 
  .banner-icon {
      position: absolute;
-     top: 71%;
-     left: 48.5%;
-     min-width: 14px;
+     top: 63%;
+     left: 47%;
  }
 
  .banner-link-shop {
      position: absolute;
-     top: 70%;
-     left: 50%;
-     font-size: 24px;
+     top: 62%;
+     left: 48%;
+     font-size: 1rem;
      font-family: var(--font-family);
      font-weight: var(--font-weight-300);
 
