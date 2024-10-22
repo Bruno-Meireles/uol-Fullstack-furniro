@@ -11,6 +11,7 @@ const Shop: React.FC = () => {
   const [productsPerPage] = useState(16);
 
   useEffect(() => {
+     window.scrollTo(0, 300);
     axios
       .get("http://localhost:3000/products")
       .then((response) => {

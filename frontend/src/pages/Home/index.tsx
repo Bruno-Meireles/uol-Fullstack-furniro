@@ -14,7 +14,7 @@ const Home: React.FC = () => {
         type="tipo1"
       />
       <Browser />
-      <ProductsList title="Our Products" limit={8} />
+      <ProductsList title="Our Products" limit={8} isSinglePage={false} />
       <Support />
     </div>
   );

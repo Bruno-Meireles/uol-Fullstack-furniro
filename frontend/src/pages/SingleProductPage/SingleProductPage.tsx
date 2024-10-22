@@ -6,7 +6,7 @@ const SingleProductPage: React.FC = () => {
   return (
     <div>
       <Header />
-          <ProductsList title="Related Products" limit={4} />
+          <ProductsList title="Related Products" limit={4} isSinglePage={true} />
           <Footer />
     </div>
   );
