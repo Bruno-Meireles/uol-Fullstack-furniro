@@ -9,6 +9,16 @@ import axios from "axios";
 const Shop: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [productsPerPage] = useState(16);
+  const [showValue, setShowValue] = useState<number>(16);
+  const [shortValue, setSortValue] = useState<string>("Default");
+
+  const handleShowChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setShowValue(parseInt(e.target.value));
+  };
+
+  const handleSortChange = () => {
+    setSortValue("console");
+  };
 
   useEffect(() => {
     axios
@@ -38,29 +48,61 @@ const Shop: React.FC = () => {
         linkShop="#"
         type="2"
       />
-
       <div className="filters">
         <div className="content">
-          <div className="filter">
-            <button>
-              <img src="assets/icons/filtering.svg" alt="Filter Icon" />
-              Filter
-            </button>
-            <img src="assets/icons/grid-big-round.svg" alt=" Grid Icon" />
-            <img src="assets/icons/view-list.svg" alt="View list Icon" />
-            <img src="assets/icons/line.svg" alt=" Icon Bar" />
-            <div className="pagination-info">Showing 1–16 of 32 results</div>
-            <div className="controls">
-              <label htmlFor="Show">Show</label>
-              <input
-                type="number"
-                name="show"
-                id="show"
-                min={1}
-                defaultValue={16}
+          <div className="controls">
+            <div className="controls-left">
+              <img
+                src="assets/icons/filtering.svg"
+                alt="Filter Icon"
+                className="icon-filter"
               />
-              <label htmlFor="Short">Short by</label>
-              <input type="text" placeholder="Default" />
+              <button className="filter-btn">Filter</button>
+              <img
+                src="assets/icons/grid-big-round.svg"
+                alt="Grid Icon"
+                className="icon-filter"
+              />
+              <img
+                src="assets/icons/view-list.svg"
+                alt="List Icon"
+                className="icon-filter"
+              />
+              <img
+                src="assets/icons/line.svg"
+                alt="Icon Bar"
+                className="icon-bar"
+              />
+              <div className="pagination-info">Showing 1–16 of 32 results</div>
+
+              <div className="controls-right">
+                <label htmlFor="show" className="label">
+                  Show
+                </label>
+                <input
+                  type="number"
+                  id="show"
+                  name="show"
+                  min={1}
+                  value={showValue}
+                  onChange={handleShowChange}
+                  className="input"
+                />
+                <label htmlFor="Short-by" className="label">
+                  Short by
+                </label>
+                <select
+                  id="short-by"
+                  name="short-by"
+                  value={shortValue}
+                  onChange={handleSortChange}
+                  className="input-short"
+                >
+                  <option value="Default">Default</option>
+                  <option value="Crescente">Crescente</option>
+                  <option value="Descrescente">Descrescente</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
