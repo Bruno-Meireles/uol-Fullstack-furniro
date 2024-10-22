@@ -1,0 +1,21 @@
+.singleBar {
+    padding-bottom: 3rem;
+}
+
+.singleBarItems {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 4%;
+    padding: 0 7%;
+    background-color: #F9F1E7;
+    height: 100px;
+    margin-top: 100px;
+}
+
+.singleBarLinks {
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-400);
+    color: #9F9F9F;
+    font-size: 1rem;
+}
