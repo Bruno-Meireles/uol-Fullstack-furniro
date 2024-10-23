@@ -28,6 +28,17 @@ export class ProductController {
   async findAll(): Promise<product[]> {
     return this.productService.findAll();
   }
+  @Get(':id')
+  async findOne(@Param('id') id: number): Promise<product> {
+    return this.productService.findOne(id);
+  }
+
+  @Get('/category/:categoryId') // endpoint para buscar produtos por categoria
+  async getProductsByCategory(
+    @Param('categoryId') categoryId: string,
+  ): Promise<product[]> {
+    return this.productService.findByCategory(Number(categoryId)); // convertendo para number
+  }
 
   @Put(':id')
   async update(

@@ -1,10 +1,28 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ProductsList from "../Home/ProductList/ProductList";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./SingleProductPage.css";
+import axios from "axios";
 
 const SingleProductPage: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const [product, setProduct] = useState<Product | null>(null);
   const [quantity, setQuantity] = useState(1);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:3000/products/${id}`)
+      .then((response) => {
+        setProduct(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching product details:", error);
+      });
+  }, [id]);
+
+  if (!product) {
+    return <div>Loading...</div>;
+  }
 
   const handleQuantityChange = (action: string) => {
     if (action === "increase") {
@@ -28,46 +46,39 @@ const SingleProductPage: React.FC = () => {
             </Link>
             <img src="/assets/icons/arrow.svg" alt="arrow" />
             <img src="/assets/icons/line.svg" alt="line" />
-            <p>Asgaard sofa</p>
+            <p>{product.name}</p> {/* Produto dinâmico */}
           </nav>
 
           <section className="see-detail-product">
             <div className="content">
               <div className="container-detail">
                 <div className="other-images">
+                  {/* Imagens adicionais - você pode substituir essas URLs se sua API retornar outras imagens */}
                   <img
                     className="other-images-item"
-                    src="/assets/images/sofa-images.png"
-                    alt="Sofa"
-                  />
-                  <img
-                    className="other-images-item"
-                    src="/assets/images/sofa-images-1.png"
-                    alt="Sofa"
-                  />
-                  <img
-                    className="other-images-item"
-                    src="/assets/images/sofa-images-2.png"
-                    alt="Sofa"
-                  />
-                  <img
-                    className="other-images-item"
-                    src="/assets/images/sofa-images-3.png"
-                    alt="Sofa"
+                    src={product.image_link} // Imagem principal
+                    alt={product.name}
                   />
                 </div>
 
                 <div className="image-big">
                   <img
                     className="image-big-detail"
-                    src="/assets/images/Asgaard-sofa.png"
-                    alt="Asgaard Sofa"
+                    src={product.image_link}
+                    alt={product.name}
                   />
                 </div>
 
                 <div className="detalhes--grandes">
-                  <h3 className="detail-title">Asgaard sofa</h3>
-                  <span className="price-customer">Rs. 250,000.00</span>
+                  <h3 className="detail-title">{product.name}</h3>{" "}
+                  {/* Nome do produto */}
+                  <span className="price-customer">
+                    {new Intl.NumberFormat("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                    }).format(parseFloat(product.price))}
+                  </span>{" "}
+                  {/* Preço formatado */}
                   <div className="detail-price-customer">
                     <img
                       className="detail-stars"
@@ -82,12 +93,8 @@ const SingleProductPage: React.FC = () => {
                     <p className="detail-customer">5 Customer Review</p>
                   </div>
                   <p className="detail-paragraph">
-                    Setting the bar as one of the loudest speakers in its class,
-                    the Kilburn is a compact, stout-hearted hero with a
-                    well-balanced audio which boasts a clear midrange and
-                    extended highs for a sound.
+                    {product.description} {/* Descrição do produto */}
                   </p>
-
                   <div className="product-options">
                     <div className="sizes">
                       <span className="size-title">Size</span>
@@ -98,7 +105,6 @@ const SingleProductPage: React.FC = () => {
                       </div>
                     </div>
                   </div>
-
                   <div>
                     <span className="circle-title">Color</span>
                     <div className="circle-container">
@@ -107,7 +113,6 @@ const SingleProductPage: React.FC = () => {
                       <div className="circle yellow-circle"></div>
                     </div>
                   </div>
-
                   <div className="product-actions">
                     <div className="quantity">
                       <button
@@ -127,9 +132,7 @@ const SingleProductPage: React.FC = () => {
                     <button className="add-to-cart">Add To Cart</button>
                     <button className="compare">+ Compare</button>
                   </div>
-
                   <div className="detail-separador"></div>
-
                   <div className="product-meta">
                     <div className="product-meta-detail">
                       <span className="label">SKU</span>
@@ -175,5 +178,16 @@ const SingleProductPage: React.FC = () => {
     </div>
   );
 };
+
+interface Product {
+  id: number;
+  name: string;
+  description: string;
+  price: string;
+  discount_price?: string;
+  discount_percent?: string;
+  image_link: string;
+  is_new?: boolean;
+}
 
 export default SingleProductPage;
