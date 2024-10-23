@@ -98,9 +98,15 @@ const Shop: React.FC = () => {
                   onChange={handleSortChange}
                   className="input-short"
                 >
-                  <option value="Default">Default</option>
-                  <option value="Crescente">Crescente</option>
-                  <option value="Descrescente">Descrescente</option>
+                  <option className="input-value" value="Default">
+                    Default
+                  </option>
+                  <option className="input-value" value="Crescente">
+                    Crescente
+                  </option>
+                  <option className="input-value" value="Descrescente">
+                    Descrescente
+                  </option>
                 </select>
               </div>
             </div>

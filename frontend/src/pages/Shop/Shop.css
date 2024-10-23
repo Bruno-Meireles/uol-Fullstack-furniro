@@ -4,9 +4,7 @@
     align-items: center;
     gap: 2.5rem;
     padding: 3rem 0;
-
 }
-
 
 .pagination-button {
     width: 3.75rem;
@@ -94,6 +92,9 @@
     color: #9F9F9F;
     font-size: 1.25rem;
     text-indent: 2rem;
+}
+.input-value:hover {
+background-color: #B88E2F;
 }
 
 .input::-webkit-inner-spin-button {
