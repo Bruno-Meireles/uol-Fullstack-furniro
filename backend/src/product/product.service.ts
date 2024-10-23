@@ -18,17 +18,68 @@ export class ProductService {
     });
   }
 
-  async findAll(): Promise<product[]> {
-    return this.prisma.product.findMany({
+  async findAll(): Promise<any[]> {
+    const products = await this.prisma.product.findMany({
       include: {
         category: true,
       },
     });
+
+    return products.map((product) => ({
+      id: product.id,
+      name: product.name,
+      sku: product.sku,
+      category_id: product.category_id,
+      description: product.description,
+      large_description: product.large_description,
+      price: product.price,
+      discount_price: product.discount_price,
+      discount_percent: product.discount_percent,
+      is_new: product.is_new,
+      image_link: product.image_link,
+      other_images_link: product.other_images_link || [],
+      created_date: product.created_date,
+      updated_date: product.updated_date,
+      category: product.category,
+    }));
   }
 
-  async findOne(id: number): Promise<product> {
-    return this.prisma.product.findUnique({
-      where: { id },
+  async findOne(id: number): Promise<any> {
+    const product = await this.prisma.product.findUnique({
+      where: { id: Number(id) },
+      include: {
+        category: true,
+      },
+    });
+
+    if (!product) {
+      throw new Error('Produto não encontrado');
+    }
+
+    return {
+      id: product.id,
+      name: product.name,
+      sku: product.sku,
+      category_id: product.category_id,
+      description: product.description,
+      large_description: product.large_description,
+      price: product.price,
+      discount_price: product.discount_price,
+      discount_percent: product.discount_percent,
+      is_new: product.is_new,
+      image_link: product.image_link,
+      other_images_link: product.other_images_link || [], 
+      created_date: product.created_date,
+      updated_date: product.updated_date,
+      category: product.category,
+    };
+  }
+
+  async findByCategory(categoryId: number): Promise<product[]> {
+    return this.prisma.product.findMany({
+      where: {
+        category_id: categoryId,
+      },
     });
   }
 

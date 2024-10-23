@@ -1,9 +1,9 @@
-import { IsOptional, IsString, IsNumber, IsBoolean } from 'class-validator';
+import { IsOptional, IsString, IsNumber, IsBoolean, IsArray } from 'class-validator';
 
 export class UpdateProductDto {
   @IsOptional()
   @IsString()
-  name?: string; 
+  name?: string;
 
   @IsOptional()
   @IsString()
@@ -11,37 +11,38 @@ export class UpdateProductDto {
 
   @IsOptional()
   @IsNumber()
-  category_id?: number; 
+  category_id?: number;
 
   @IsOptional()
   @IsString()
-  description?: string; 
+  description?: string;
 
   @IsOptional()
   @IsString()
-  large_description?: string; 
+  large_description?: string;
 
   @IsOptional()
   @IsNumber()
-  price?: number; 
+  price?: number;
 
   @IsOptional()
   @IsNumber()
-  discount_price?: number; 
+  discount_price?: number;
 
   @IsOptional()
   @IsNumber()
-  discount_percent?: number; 
+  discount_percent?: number;
 
   @IsOptional()
   @IsBoolean()
-  is_new?: boolean; 
+  is_new?: boolean;
 
   @IsOptional()
   @IsString()
   image_link?: string;
 
   @IsOptional()
-  @IsString()
-  other_images_link?: string; 
+  @IsArray()
+  @IsString({ each: true })
+  other_images_link?: string[];
 }
