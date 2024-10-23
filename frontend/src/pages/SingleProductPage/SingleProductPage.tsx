@@ -11,6 +11,7 @@ const SingleProductPage: React.FC = () => {
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
+     window.scrollTo(0, 0);
     axios
       .get(`http://localhost:3000/products/${id}`)
       .then((response) => {
