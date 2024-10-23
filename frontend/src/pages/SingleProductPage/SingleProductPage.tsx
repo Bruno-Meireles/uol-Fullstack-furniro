@@ -57,8 +57,9 @@ const SingleProductPage: React.FC = () => {
                   />
                 </div>
 
-                <div className="image">
+                <div className="image-big">
                   <img
+                    className="image-big-detail"
                     src="/assets/images/Asgaard-sofa.png"
                     alt="Asgaard Sofa"
                   />
@@ -98,13 +99,28 @@ const SingleProductPage: React.FC = () => {
                     </div>
                   </div>
 
+                  <div>
+                    <span className="circle-title">Color</span>
+                    <div className="circle-container">
+                      <div className="circle purple-circle"></div>
+                      <div className="circle black-circle"></div>
+                      <div className="circle yellow-circle"></div>
+                    </div>
+                  </div>
+
                   <div className="product-actions">
                     <div className="quantity">
-                      <button onClick={() => handleQuantityChange("decrease")}>
+                      <button
+                        className="quantity-button"
+                        onClick={() => handleQuantityChange("decrease")}
+                      >
                         -
                       </button>
                       <span>{quantity}</span>
-                      <button onClick={() => handleQuantityChange("increase")}>
+                      <button
+                        className="quantity-button"
+                        onClick={() => handleQuantityChange("increase")}
+                      >
                         +
                       </button>
                     </div>
@@ -112,15 +128,39 @@ const SingleProductPage: React.FC = () => {
                     <button className="compare">+ Compare</button>
                   </div>
 
+                  <div className="detail-separador"></div>
+
                   <div className="product-meta">
-                    <p>SKU: SS001</p>
-                    <p>Category: Sofas</p>
-                    <p>Tags: Sofa, Chair, Home, Shop</p>
+                    <div className="product-meta-detail">
+                      <span className="label">SKU</span>
+                      <span className="value">: SS001</span>
+                    </div>
+                    <div className="product-meta-detail">
+                      <span className="label">Category</span>
+                      <span className="value">: Sofas</span>
+                    </div>
+                    <div className="product-meta-detail">
+                      <span className="label">Tags</span>
+                      <span className="value">: Sofa, Chair, Home, Shop</span>
+                    </div>
                     <div className="share">
-                      <span>Share: </span>
-                      <a href="#">FB</a>
-                      <a href="#">IN</a>
-                      <a href="#">TW</a>
+                      <span className="label">Share</span>
+                      <span className="value-share">:</span>
+                      <a href="#">
+                        <img src="/assets/icons/face.svg" alt="Icon Facebook" />
+                      </a>
+                      <a href="#">
+                        <img
+                          src="/assets/icons/linkedin.svg"
+                          alt="Icon Linkedin"
+                        />
+                      </a>
+                      <a href="#">
+                        <img
+                          src="/assets/icons/twitter.svg"
+                          alt="Icon Twitter"
+                        />
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -129,6 +169,8 @@ const SingleProductPage: React.FC = () => {
           </section>
         </div>
       </section>
+
+      <div className="separador"></div>
       <ProductsList title="Related Products" limit={4} isSinglePage={true} />
     </div>
   );
