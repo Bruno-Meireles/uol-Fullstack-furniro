@@ -33,11 +33,11 @@ export class ProductController {
     return this.productService.findOne(id);
   }
 
-  @Get('/category/:categoryId') // endpoint para buscar produtos por categoria
+  @Get('/category/:categoryId') 
   async getProductsByCategory(
     @Param('categoryId') categoryId: string,
   ): Promise<product[]> {
-    return this.productService.findByCategory(Number(categoryId)); // convertendo para number
+    return this.productService.findByCategory(Number(categoryId));
   }
 
   @Put(':id')

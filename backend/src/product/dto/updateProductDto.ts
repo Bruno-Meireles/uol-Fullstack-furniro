@@ -43,5 +43,5 @@ export class UpdateProductDto {
 
   @IsOptional()
   @IsString()
-  other_images_link?: string; 
+  other_images_link?: string[]; 
 }

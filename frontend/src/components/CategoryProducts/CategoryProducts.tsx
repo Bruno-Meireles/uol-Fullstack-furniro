@@ -1,4 +1,3 @@
-// CategoryProducts.tsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -6,12 +5,12 @@ interface Product {
   id: number;
   name: string;
   image_link: string;
+  other_images_link: string[];
   price: string;
-  // outras propriedades do produto
 }
 
 interface CategoryProductsProps {
-  categoryId: number; // Recebe categoryId como prop
+  categoryId: number; 
 }
 
 const CategoryProducts: React.FC<CategoryProductsProps> = ({ categoryId }) => {

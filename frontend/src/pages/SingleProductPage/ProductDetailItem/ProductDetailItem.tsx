@@ -17,11 +17,19 @@ const ProductDetailItem: React.FC<ProductDetailItemProps> = ({
       <div className="content">
         <div className="container-detail">
           <div className="other-images">
-            <img
-              className="other-images-item"
-              src={product.image_link} 
-              alt={product.name}
-            />
+            {Array.isArray(product.other_images_link) &&
+            product.other_images_link.length > 0 ? (
+              product.other_images_link.map((image, index) => (
+                <img
+                  key={index} 
+                  className="other-images-item"
+                  src={image}
+                  alt={`${product.name} image ${index + 1}`}
+                />
+              ))
+            ) : (
+              <p>No additional images available.</p> 
+            )}
           </div>
 
           <div className="image-big">
@@ -134,6 +142,7 @@ interface Product {
   discount_price?: string;
   discount_percent?: string;
   image_link: string;
+  other_images_link: string[];
   is_new?: boolean;
 }
 

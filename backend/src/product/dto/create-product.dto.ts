@@ -4,6 +4,7 @@ import {
   IsOptional,
   IsBoolean,
   IsPositive,
+  IsArray,
 } from 'class-validator';
 
 export class CreateProductDto {
@@ -40,9 +41,12 @@ export class CreateProductDto {
   @IsBoolean()
   is_new?: boolean;
 
+  @IsOptional()
   @IsString()
   image_link?: string;
 
-  @IsString()
-  other_images_link?: string;
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  other_images_link?: string[];
 }
