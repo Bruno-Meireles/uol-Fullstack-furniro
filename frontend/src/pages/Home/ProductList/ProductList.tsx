@@ -21,7 +21,7 @@ const ProductsList: React.FC<IProps> = ({ title, limit = 8, isSinglePage }) => {
   }, []);
 
   const handleSeeDetails = (productId: number) => {
-    console.log("Viewing details for product:", productId);
+    navigate(`/products/${productId}`)
   };
 
   const handleShowMore = () => {

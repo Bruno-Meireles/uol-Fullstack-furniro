@@ -52,6 +52,11 @@
     position: relative;
 }
 
+.product-image img {
+    object-fit: contain;
+    height: 300px;
+}
+
 
 .discount_percent {
     position: absolute;

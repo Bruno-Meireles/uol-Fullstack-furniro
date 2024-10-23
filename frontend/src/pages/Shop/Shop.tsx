@@ -5,13 +5,15 @@ import Product from "../../components/ProductCard/ProductCard";
 import "../../pages/Home/ProductList/ProductList.css";
 import "./Shop.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Shop: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [productsPerPage] = useState(16);
+  const navigate = useNavigate();
 
   useEffect(() => {
-     window.scrollTo(0, 300);
+    window.scrollTo(0, 300);
     axios
       .get("http://localhost:3000/products")
       .then((response) => {
@@ -23,7 +25,7 @@ const Shop: React.FC = () => {
   }, []);
 
   const handleSeeDetails = (productId: number) => {
-    console.log("Viewing details for product:", productId);
+    navigate(`/products/${productId}`);
   };
   const handlePagination = () => {
     console.log("Clicou");

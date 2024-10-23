@@ -75,6 +75,7 @@ interface Product {
   discount_price?: string;
   discount_percent?: string;
   image_link: string;
+  other_images_link: string[];
   is_new?: boolean;
 }
 
