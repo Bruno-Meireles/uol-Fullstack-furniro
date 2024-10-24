@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 const Shop: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [showValue, setShowValue] = useState<number>(16);
+  const [showPaginationValue, setShowPaginationValue] = useState<number>(16);
   const [shortValue, setSortValue] = useState<string>("Default");
   const [categories, setCategories] = useState<{ id: number; name: string }[]>(
     []
@@ -19,7 +19,7 @@ const Shop: React.FC = () => {
   const navigate = useNavigate();
 
   const handleShowChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setShowValue(parseInt(e.target.value));
+    setShowPaginationValue(parseInt(e.target.value));
   };
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -143,7 +143,7 @@ const Shop: React.FC = () => {
                 className="icon-bar"
               />
               <div className="pagination-info">
-                Showing 1–{showValue} of {products.length} results
+                Showing 1–{showPaginationValue} of {products.length} results
               </div>
 
               <div className="controls-right">
@@ -155,7 +155,7 @@ const Shop: React.FC = () => {
                   id="show"
                   name="show"
                   min={1}
-                  value={showValue}
+                  value={showPaginationValue}
                   onChange={handleShowChange}
                   className="input"
                 />
@@ -187,7 +187,7 @@ const Shop: React.FC = () => {
 
       <div className="product-content">
         <div className="product-flex">
-          {products.slice(0, showValue).map((product) => (
+          {products.slice(0, showPaginationValue).map((product) => (
             <Product
               key={product.id}
               product={product}
