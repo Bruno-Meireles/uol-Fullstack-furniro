@@ -1,11 +1,6 @@
 import React from "react";
-import "./ProuctDetailItem.css"
+import "./ProductDetailItem.css"
 
-interface ProductDetailItemProps {
-  product: Product;
-  quantity: number;
-  handleQuantityChange: (action: string) => void;
-}
 
 const ProductDetailItem: React.FC<ProductDetailItemProps> = ({
   product,
@@ -144,6 +139,12 @@ interface Product {
   image_link: string;
   other_images_link: string[];
   is_new?: boolean;
+}
+
+interface ProductDetailItemProps {
+  product: Product;
+  quantity: number;
+  handleQuantityChange: (action: string) => void;
 }
 
 export default ProductDetailItem;
