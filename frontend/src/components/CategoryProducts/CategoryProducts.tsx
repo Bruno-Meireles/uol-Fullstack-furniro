@@ -24,7 +24,7 @@ const CategoryProducts: React.FC<CategoryProductsProps> = ({ categoryId }) => {
          setProducts(response.data);
        })
        .catch((error) => {
-         console.error("Error fetching products by category:", error);
+         console.error( Error ,"Error fetching products by category:", error);
        });
    }
  }, [categoryId]);

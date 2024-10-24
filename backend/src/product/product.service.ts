@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { product } from '@prisma/client';
@@ -53,7 +53,7 @@ export class ProductService {
     });
 
     if (!product) {
-      throw new Error('Produto não encontrado');
+      throw new NotFoundException('Produto não encontrado');
     }
 
     return {
@@ -99,7 +99,7 @@ export class ProductService {
     });
 
     if (!productToDelete) {
-      throw new Error('Produto não encontrado');
+      throw new NotFoundException('Produto não encontrado');
     }
 
     try {
