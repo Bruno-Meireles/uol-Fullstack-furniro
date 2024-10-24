@@ -62,6 +62,21 @@
     margin-right: 1.25rem;
     font-family: var(--font-family);
     font-weight: var(--font-weight-400);
+    position: relative;
+}
+
+.category-filters input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.category-filters {
+    background-color: #f9f2e7;
+    display: flex;
+    gap: 20px;
+    position: absolute;
+    left: 5%;
+    bottom: 4%;
+    cursor: pointer;
 }
 
 .pagination-info {

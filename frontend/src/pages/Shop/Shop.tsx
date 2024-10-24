@@ -32,18 +32,17 @@ const Shop: React.FC = () => {
       .then((response) => {
         const allProducts = response.data;
 
-        // Filtra os produtos com base nas categorias selecionadas
         const filteredProducts =
           selectedCategories.length > 0
-            ? allProducts.filter((product: { category_id: number; }) =>
+            ? allProducts.filter((product: { category_id: number }) =>
                 selectedCategories.includes(product.category_id)
-              ) // Filtra pelo ID da categoria
+              )
             : allProducts;
 
         setProducts(filteredProducts);
       })
       .catch((error) => {
-        console.error("Error fetching products:", error);
+        error("Error fetching products:", error);
       });
   }, [selectedCategories]);
 
@@ -54,18 +53,16 @@ const Shop: React.FC = () => {
         setCategories(response.data);
       })
       .catch((error) => {
-        console.error("Error fetching categories:", error);
+        error("Error fetching categories:", error);
       });
   };
 
-  const handleCategoryChange = (categoryId: number) => {
+  const handleFilterChange = (categoryId: number) => {
     setSelectedCategories((prevSelected) => {
-      console.log("Previous Selected Categories:", prevSelected);
       const newSelected = prevSelected.includes(categoryId)
         ? prevSelected.filter((id) => id !== categoryId)
         : [...prevSelected, categoryId];
 
-      console.log("Updated Selected Categories:", newSelected);
       return newSelected;
     });
   };
@@ -107,25 +104,28 @@ const Shop: React.FC = () => {
                 alt="Filter Icon"
                 className="icon-filter"
               />
-              <button onClick={toggleFilters} className="filter-btn">
-                Filter
-              </button>
+              <div>
+                <button onClick={toggleFilters} className="filter-btn">
+                  Filter
+                </button>
 
-              {showFilters && (
-                <div className="category-filters">
-                  {categories.map((category) => (
-                    <label key={category.id}>
-                      <input
-                        type="checkbox"
-                        value={category.id}
-                        onChange={() => handleCategoryChange(category.id)}
-                        checked={selectedCategories.includes(category.id)}
-                      />
-                      {category.name}
-                    </label>
-                  ))}
-                </div>
-              )}
+                {showFilters && (
+                  <div className="category-filters">
+                    {categories.map((category) => (
+                      <label key={category.id}>
+                        <input
+                          className="check"
+                          type="checkbox"
+                          value={category.id}
+                          onChange={() => handleFilterChange(category.id)}
+                          checked={selectedCategories.includes(category.id)}
+                        />
+                        {category.name}
+                      </label>
+                    ))}
+                  </div>
+                )}
+              </div>
 
               <img
                 src="assets/icons/grid-big-round.svg"
@@ -195,9 +195,7 @@ const Shop: React.FC = () => {
             />
           ))}
         </div>
-        <div className="pagination-buttons">
-          {/* Adicione a lógica para paginação aqui */}
-        </div>
+        <div className="pagination-buttons"></div>
       </div>
 
       <Support />

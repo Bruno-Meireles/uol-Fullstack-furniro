@@ -33,7 +33,7 @@ export class ProductController {
     return this.productService.findOne(id);
   }
 
-  @Get('/category/:categoryId') 
+  @Get('/category/:categoryId')
   async getProductsByCategory(
     @Param('categoryId') categoryId: string,
   ): Promise<product[]> {
@@ -57,7 +57,7 @@ export class ProductController {
       }
       return deletedProduct;
     } catch (error) {
-      console.error('Erro ao tentar excluir o produto:', error);
+      error('Erro ao tentar excluir o produto:', error);
       throw new InternalServerErrorException(
         'Erro ao tentar excluir o produto',
       );
