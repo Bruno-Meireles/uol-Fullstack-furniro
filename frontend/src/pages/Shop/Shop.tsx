@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import BannerItem from "../../components/BannerItem/BannerItem";
 import Support from "../../components/Support/Support";
 import Product from "../../components/ProductCard/ProductCard";
@@ -9,39 +9,83 @@ import { useNavigate } from "react-router-dom";
 
 const Shop: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [productsPerPage] = useState(16);
-    const [showValue, setShowValue] = useState<number>(16);
+  const [showValue, setShowValue] = useState<number>(16);
   const [shortValue, setSortValue] = useState<string>("Default");
-    const navigate = useNavigate();
+  const [categories, setCategories] = useState<{ id: number; name: string }[]>(
+    []
+  );
+  const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
+  const [showFilters, setShowFilters] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const handleShowChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setShowValue(parseInt(e.target.value));
   };
 
-  const handleSortChange = () => {
-    setSortValue("console");
+  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSortValue(e.target.value);
   };
 
-
-  useEffect(() => {
-    window.scrollTo(0, 300);
+  const fetchProducts = useCallback(() => {
     axios
-      .get("http://localhost:3000/products")
+      .get(`http://localhost:3000/products`)
       .then((response) => {
-        setProducts(response.data);
+        const allProducts = response.data;
+
+        // Filtra os produtos com base nas categorias selecionadas
+        const filteredProducts =
+          selectedCategories.length > 0
+            ? allProducts.filter((product: { category_id: number; }) =>
+                selectedCategories.includes(product.category_id)
+              ) // Filtra pelo ID da categoria
+            : allProducts;
+
+        setProducts(filteredProducts);
       })
       .catch((error) => {
         console.error("Error fetching products:", error);
       });
-  }, []);
-  
+  }, [selectedCategories]);
+
+  const fetchCategories = () => {
+    axios
+      .get("http://localhost:3000/categories")
+      .then((response) => {
+        setCategories(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching categories:", error);
+      });
+  };
+
+  const handleCategoryChange = (categoryId: number) => {
+    setSelectedCategories((prevSelected) => {
+      console.log("Previous Selected Categories:", prevSelected);
+      const newSelected = prevSelected.includes(categoryId)
+        ? prevSelected.filter((id) => id !== categoryId)
+        : [...prevSelected, categoryId];
+
+      console.log("Updated Selected Categories:", newSelected);
+      return newSelected;
+    });
+  };
+
   const handleSeeDetails = (productId: number) => {
     navigate(`/products/${productId}`);
   };
-  const handlePagination = () => {
-    console.log("Clicou");
+
+  const toggleFilters = () => {
+    setShowFilters((prevShowFilters) => !prevShowFilters);
   };
 
+  useEffect(() => {
+    fetchCategories(); // Carrega as categorias uma vez
+    fetchProducts(); // Carrega os produtos sempre que as categorias selecionadas mudarem
+  }, [fetchProducts]);
+
+  useEffect(() => {
+    fetchProducts(); // Atualiza os produtos sempre que as categorias selecionadas mudarem
+  }, [selectedCategories, fetchProducts]);
 
   return (
     <section className="shop-page">
@@ -63,7 +107,26 @@ const Shop: React.FC = () => {
                 alt="Filter Icon"
                 className="icon-filter"
               />
-              <button className="filter-btn">Filter</button>
+              <button onClick={toggleFilters} className="filter-btn">
+                Filter
+              </button>
+
+              {showFilters && (
+                <div className="category-filters">
+                  {categories.map((category) => (
+                    <label key={category.id}>
+                      <input
+                        type="checkbox"
+                        value={category.id}
+                        onChange={() => handleCategoryChange(category.id)}
+                        checked={selectedCategories.includes(category.id)}
+                      />
+                      {category.name}
+                    </label>
+                  ))}
+                </div>
+              )}
+
               <img
                 src="assets/icons/grid-big-round.svg"
                 alt="Grid Icon"
@@ -79,7 +142,9 @@ const Shop: React.FC = () => {
                 alt="Icon Bar"
                 className="icon-bar"
               />
-              <div className="pagination-info">Showing 1–16 of 32 results</div>
+              <div className="pagination-info">
+                Showing 1–{showValue} of {products.length} results
+              </div>
 
               <div className="controls-right">
                 <label htmlFor="show" className="label">
@@ -94,7 +159,7 @@ const Shop: React.FC = () => {
                   onChange={handleShowChange}
                   className="input"
                 />
-                <label htmlFor="Short-by" className="label">
+                <label htmlFor="short-by" className="label">
                   Short by
                 </label>
                 <select
@@ -122,7 +187,7 @@ const Shop: React.FC = () => {
 
       <div className="product-content">
         <div className="product-flex">
-          {products.slice(0, productsPerPage).map((product) => (
+          {products.slice(0, showValue).map((product) => (
             <Product
               key={product.id}
               product={product}
@@ -131,29 +196,7 @@ const Shop: React.FC = () => {
           ))}
         </div>
         <div className="pagination-buttons">
-          <div className="pagination">
-            <button className="pagination-button" onClick={handlePagination}>
-              1
-            </button>
-          </div>
-          <div className="pagination">
-            <button className="pagination-button" onClick={handlePagination}>
-              2
-            </button>
-          </div>
-          <div className="pagination">
-            <button className="pagination-button" onClick={handlePagination}>
-              3
-            </button>
-          </div>
-          <div className="pagination">
-            <button
-              className="pagination-button pagination-button-next"
-              onClick={handlePagination}
-            >
-              Next
-            </button>
-          </div>
+          {/* Adicione a lógica para paginação aqui */}
         </div>
       </div>
 

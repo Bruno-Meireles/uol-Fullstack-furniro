@@ -1,13 +1,11 @@
 const Product: React.FC<IProps> = ({ product, onSeeDetails }) => {
-  const calculateDiscountedPrice = () => {
-    if (product.discount_percent && product.price) {
-      const originalPrice = parseFloat(product.price);
-      const discount =
-        (originalPrice * parseFloat(product.discount_percent)) / 100;
-      return (originalPrice - discount).toFixed(2);
-    }
-    return product.price;
-  };
+  const discountedPrice = product.discount_percent
+    ? (
+        (parseFloat(product.price) *
+          (1 - parseFloat(product.discount_percent) / 100)) /
+        100
+      ).toFixed(2)
+    : null;
 
   return (
     <div className="product-card" key={product.id}>
@@ -34,13 +32,18 @@ const Product: React.FC<IProps> = ({ product, onSeeDetails }) => {
             <p className="price">
               R$
               <span className="price-value-discount">
-                {calculateDiscountedPrice()}
+                {discountedPrice &&
+                  parseFloat(discountedPrice).toLocaleString("pt-BR", {
+                    minimumFractionDigits: 2,
+                  })}
               </span>
             </p>
             <p className="original-price">
               R$
               <span className="price-value">
-                {parseFloat(product.price).toLocaleString("pt-BR")}
+                {(parseFloat(product.price) / 100).toLocaleString("pt-BR", {
+                  minimumFractionDigits: 2,
+                })}
               </span>
             </p>
           </>

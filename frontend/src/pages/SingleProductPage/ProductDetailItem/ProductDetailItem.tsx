@@ -22,9 +22,9 @@ const ProductDetailItem: React.FC<ProductDetailItemProps> = ({
                   alt={`${product.name} image ${index + 1}`}
                 />
               ))
-            ) : (
-              <p>No additional images available.</p> 
-            )}
+            ) : null
+              
+            }
           </div>
 
           <div className="image-big">
