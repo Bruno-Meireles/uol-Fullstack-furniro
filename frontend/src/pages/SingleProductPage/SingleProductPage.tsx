@@ -4,7 +4,7 @@ import ProductsList from "../Home/ProductList/ProductList";
 import axios from "axios";
 import "./SingleProductPage.css";
 import ProductDetailItem from "./ProductDetailItem/ProductDetailItem";
-import DescripitionAdditional from "./DescriptionAdditional/DescripitionAdditional";
+import DescriptionAdditional from "./DescriptionAdditional/DescriptionAdditional";
 
 const SingleProductPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -61,7 +61,7 @@ const SingleProductPage: React.FC = () => {
       </section>
       <div className="separador"></div>
 
-      <DescripitionAdditional
+      <DescriptionAdditional
         title="Description"
         h4="Additional Information"
         paragraph="Embodying the raw, wayward spirit of rock ‘n’ roll, the Kilburn portable active stereo speaker takes the unmistakable look and sound of Marshall, unplugs the chords, and takes the show on the road.
