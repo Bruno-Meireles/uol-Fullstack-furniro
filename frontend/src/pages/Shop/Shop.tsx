@@ -9,7 +9,8 @@ import { useNavigate } from "react-router-dom";
 
 const Shop: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [showPaginationValue, setShowPaginationValue] = useState<number>(16);
+  const [limit, setLimit] = useState<number>(16);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [shortValue, setShorttValue] = useState<string>("Default");
   const [categories, setCategories] = useState<{ id: number; name: string }[]>(
     []
@@ -19,7 +20,24 @@ const Shop: React.FC = () => {
   const navigate = useNavigate();
 
   const handleShowChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setShowPaginationValue(parseInt(e.target.value));
+    const value = e.target.value;
+
+    // Se o campo estiver vazio, não atualize o limite
+    if (value === "") {
+      setLimit(16); // Defina um valor padrão ou mantenha o limite atual
+      return; // Saia da função para não prosseguir
+    }
+
+    // Tente converter o valor para um número
+    const newLimit = parseInt(value);
+
+    // Verifica se é um número válido e maior que 0
+    if (!isNaN(newLimit) && newLimit > 0) {
+      setLimit(newLimit);
+    }
+
+    // Reseta a página atual sempre que o limite muda
+    setCurrentPage(1);
   };
 
   const handleShorttChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -50,7 +68,7 @@ const Shop: React.FC = () => {
         setProducts(shortedProducts);
       })
       .catch((error) => {
-        error("Error fetching products:", error);
+        console.error("Error fetching products:", error);
       });
   }, [selectedCategories, shortValue]);
 
@@ -61,7 +79,7 @@ const Shop: React.FC = () => {
         setCategories(response.data);
       })
       .catch((error) => {
-        error("Error fetching categories:", error);
+        console.error("Error fetching categories:", error);
       });
   };
 
@@ -82,17 +100,14 @@ const Shop: React.FC = () => {
   const toggleFilters = () => {
     setShowFilters((prevShowFilters) => !prevShowFilters);
   };
-    const handlePagination = () => {
-      console.log("Clicou");
-    };
 
   useEffect(() => {
-    fetchCategories(); 
-    fetchProducts(); 
+    fetchCategories();
+    fetchProducts();
   }, [fetchProducts]);
 
   useEffect(() => {
-    fetchProducts(); 
+    fetchProducts();
   }, [selectedCategories, fetchProducts]);
 
   return (
@@ -138,27 +153,14 @@ const Shop: React.FC = () => {
                 )}
               </div>
 
-              <img
-                src="assets/icons/grid-big-round.svg"
-                alt="Grid Icon"
-                className="icon-filter"
-              />
-              <img
-                src="assets/icons/view-list.svg"
-                alt="List Icon"
-                className="icon-filter"
-              />
-              <img
-                src="assets/icons/line.svg"
-                alt="Icon Bar"
-                className="icon-bar"
-              />
               <div className="pagination-info">
-                Showing 1–{showPaginationValue} of {products.length} results
+                Showing {(currentPage - 1) * limit + 1}–
+                {Math.min(currentPage * limit, products.length)} of{" "}
+                {products.length} results
               </div>
 
               <div className="controls-right">
-                <label htmlFor="show" className="label">
+                <label htmlFor="show" className="label-show">
                   Show
                 </label>
                 <input
@@ -166,11 +168,11 @@ const Shop: React.FC = () => {
                   id="show"
                   name="show"
                   min={1}
-                  value={showPaginationValue}
+                  value={limit}
                   onChange={handleShowChange}
                   className="input"
                 />
-                <label htmlFor="short-by" className="label">
+                <label htmlFor="short-by" className="label-input">
                   Short by
                 </label>
                 <select
@@ -198,38 +200,39 @@ const Shop: React.FC = () => {
 
       <div className="product-content">
         <div className="product-flex">
-          {products.slice(0, showPaginationValue).map((product) => (
-            <Product
-              key={product.id}
-              product={product}
-              onSeeDetails={handleSeeDetails}
-            />
-          ))}
+          {products
+            .slice((currentPage - 1) * limit, currentPage * limit)
+            .map((product) => (
+              <Product
+                key={product.id}
+                product={product}
+                onSeeDetails={handleSeeDetails}
+              />
+            ))}
         </div>
         <div className="pagination-buttons">
-          <div className="pagination">
-            <button className="pagination-button" onClick={handlePagination}>
-              1
-            </button>
-          </div>
-          <div className="pagination">
-            <button className="pagination-button" onClick={handlePagination}>
-              2
-            </button>
-          </div>
-          <div className="pagination">
-            <button className="pagination-button" onClick={handlePagination}>
-              3
-            </button>
-          </div>
-          <div className="pagination">
+          {[...Array(Math.ceil(products.length / limit)).keys()].map((page) => (
             <button
-              className="pagination-button pagination-button-next"
-              onClick={handlePagination}
+              key={page}
+              className={`pagination-button ${
+                currentPage === page + 1 ? "active" : ""
+              }`}
+              onClick={() => setCurrentPage(page + 1)}
             >
-              Next
+              {page + 1}
             </button>
-          </div>
+          ))}
+          <button
+            className="pagination-button pagination-button-next"
+            onClick={() =>
+              setCurrentPage((prev) =>
+                Math.min(prev + 1, Math.ceil(products.length / limit))
+              )
+            }
+            disabled={currentPage === Math.ceil(products.length / limit)}
+          >
+            Next
+          </button>
         </div>
       </div>
 

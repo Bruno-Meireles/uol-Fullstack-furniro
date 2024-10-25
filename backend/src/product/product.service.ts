@@ -49,7 +49,7 @@ export class ProductService {
       },
     });
 
-    return newProduct; 
+    return newProduct;
   }
 
   sanitizePayload(queryParams: ProductQueryDto) {
@@ -69,15 +69,23 @@ export class ProductService {
     return result;
   }
 
-  async findAll(queryParams: ProductQueryDto): Promise<product[]> {
+  async findAll(
+    queryParams: ProductQueryDto,
+  ): Promise<{ totalCount: number; items: product[] }> {
     const payload = this.sanitizePayload(queryParams);
 
-    return this.prisma.product.findMany({
+    const totalCount = await this.prisma.product.count({
+      where: payload.where,
+    });
+
+    const items = await this.prisma.product.findMany({
       ...payload,
       include: {
         category: true,
       },
     });
+
+    return { totalCount, items };
   }
 
   async countProducts(): Promise<number> {

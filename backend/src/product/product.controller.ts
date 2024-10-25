@@ -26,9 +26,12 @@ export class ProductController {
   }
 
   @Get()
-  findAll(@Query() queryParams: ProductQueryDto): Promise<product[]> {
+  async findAll(
+    @Query() queryParams: ProductQueryDto,
+  ): Promise<{ totalCount: number; items: product[] }> {
     return this.productService.findAll(queryParams);
   }
+
   @Get('category/:categoryId')
   async findByCategory(
     @Param('categoryId', ParseIntPipe) categoryId: number,

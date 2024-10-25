@@ -46,7 +46,7 @@
     display: flex;
     align-items: center;
     position: relative;
-    left: 34%;
+    left: 60%;
 }
 
 .icon-filter,
@@ -85,11 +85,19 @@
 
 }
 
-.label {
+.label-show {
+    margin: 0 15px;
+    font-size: 1.25rem;
+    color: #000000;
+
+}
+
+.label-input {
     margin: 0 15px;
     font-size: 1.25rem;
     color: #000000;
 }
+
 
 .input {
     width: 55px;
