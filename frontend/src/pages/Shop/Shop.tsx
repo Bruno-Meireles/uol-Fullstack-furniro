@@ -82,14 +82,17 @@ const Shop: React.FC = () => {
   const toggleFilters = () => {
     setShowFilters((prevShowFilters) => !prevShowFilters);
   };
+    const handlePagination = () => {
+      console.log("Clicou");
+    };
 
   useEffect(() => {
-    fetchCategories(); // Carrega as categorias uma vez
-    fetchProducts(); // Carrega os produtos sempre que as categorias selecionadas mudarem
+    fetchCategories(); 
+    fetchProducts(); 
   }, [fetchProducts]);
 
   useEffect(() => {
-    fetchProducts(); // Atualiza os produtos sempre que as categorias selecionadas mudarem
+    fetchProducts(); 
   }, [selectedCategories, fetchProducts]);
 
   return (
@@ -203,7 +206,31 @@ const Shop: React.FC = () => {
             />
           ))}
         </div>
-        <div className="pagination-buttons"></div>
+        <div className="pagination-buttons">
+          <div className="pagination">
+            <button className="pagination-button" onClick={handlePagination}>
+              1
+            </button>
+          </div>
+          <div className="pagination">
+            <button className="pagination-button" onClick={handlePagination}>
+              2
+            </button>
+          </div>
+          <div className="pagination">
+            <button className="pagination-button" onClick={handlePagination}>
+              3
+            </button>
+          </div>
+          <div className="pagination">
+            <button
+              className="pagination-button pagination-button-next"
+              onClick={handlePagination}
+            >
+              Next
+            </button>
+          </div>
+        </div>
       </div>
 
       <Support />
