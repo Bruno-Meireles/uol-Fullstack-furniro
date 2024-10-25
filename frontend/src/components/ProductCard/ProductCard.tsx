@@ -5,7 +5,7 @@ const Product: React.FC<IProps> = ({ product, onSeeDetails }) => {
           (1 - parseFloat(product.discount_percent) / 100)) /
         100
       ).toFixed(2)
-    : null;
+    : parseFloat(product.price).toFixed(2);
 
   return (
     <div className="product-card" key={product.id}>

@@ -84,6 +84,7 @@ interface Product {
   image_link: string;
   other_images_link: string[];
   is_new?: boolean;
-}
+  sku: string;
+ }
 
 export default SingleProductPage;

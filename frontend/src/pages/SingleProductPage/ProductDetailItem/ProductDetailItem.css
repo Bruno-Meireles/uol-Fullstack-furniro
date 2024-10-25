@@ -163,11 +163,22 @@
     border-radius: 10px;
 }
 
+
 .quantity-button {
     border: none;
     background-color: white;
+    cursor: pointer;
 }
 
+.add-to-cart:hover {
+    background-color: #B88E2F;
+    color: #FFFFFF;
+}
+
+.compare:hover {
+    background-color: #B88E2F;
+    color: #FFFFFF;
+}
 
 .add-to-cart {
     min-width: 215px;
