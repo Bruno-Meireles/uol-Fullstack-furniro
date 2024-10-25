@@ -2,18 +2,18 @@ import {
   Controller,
   Get,
   Post,
-  Put,
-  Delete,
   Body,
   Param,
-  NotFoundException,
-  InternalServerErrorException,
-  ParseIntPipe,
+  Delete,
+  Put,
   Query,
+  BadRequestException,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/updateProductDto';
+import { ProductQueryDto } from './dto/product-query.dto';
 import { product } from '@prisma/client';
 
 @Controller('products')
@@ -21,50 +21,34 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Post()
-  async create(@Body() createProductDto: CreateProductDto): Promise<product> {
+  create(@Body() createProductDto: CreateProductDto) {
     return this.productService.create(createProductDto);
   }
 
   @Get()
-  async findAll(
-    @Query('short_by') short_by?: 'name' | 'price',
-  ): Promise<product[]> {
-    return this.productService.findAll(short_by);
+  findAll(@Query() queryParams: ProductQueryDto): Promise<product[]> {
+    return this.productService.findAll(queryParams);
+  }
+
+  @Get('count')
+  countProducts() {
+    return this.productService.countProducts();
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: number): Promise<product> {
+  findOne(@Param('id') id: number) {
     return this.productService.findOne(id);
   }
-
-  @Get('/category/:categoryId')
-  async getProductsByCategory(
-    @Param('categoryId') categoryId: string,
-  ): Promise<product[]> {
-    return this.productService.findByCategory(Number(categoryId));
-  }
-
   @Put(':id')
-  async update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() updateProductDto: UpdateProductDto,
-  ): Promise<product> {
-    return this.productService.update(id, updateProductDto);
-  }
-
-  @Delete(':id')
-  async delete(@Param('id', ParseIntPipe) id: number): Promise<product> {
-    try {
-      const deletedProduct = await this.productService.remove(id);
-      if (!deletedProduct) {
-        throw new NotFoundException(`Produto com ID ${id} não encontrado`);
-      }
-      return deletedProduct;
-    } catch (error) {
-      error('Erro ao tentar excluir o produto:', error);
-      throw new InternalServerErrorException(
-        'Erro ao tentar excluir o produto',
-      );
+  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
+    const productId = parseInt(id, 10);
+    if (isNaN(productId)) {
+      throw new BadRequestException('Invalid product ID');
     }
+    return this.productService.update(productId, updateProductDto);
+  }
+  @Delete(':id')
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.productService.remove(id);
   }
 }

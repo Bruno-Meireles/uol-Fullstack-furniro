@@ -12,14 +12,9 @@ Restrita
 • Então o sistema deverá redirecionar para uma página de listagem de produtos da
 categoria referente.
 
-Cenário: Indicação de desconto ou itens novos
-• Dado que o usuário está visualizando os produtos
-• E que o sistema está funcionando corretamente
-• Então o sistema deverá exibir uma espécie de tag nos produtos novos e nos produtos
-com desconto
-
-Cenário: Definição de ordem
-• Dado que o usuário entrou na tela Shop
-• E que o usuário quer ordernar os produtos
-• Quando o usuário clicar no campo definido para “Short by”
-• Então o sistema deverá exibir duas opções de listagem, “Crescente” ou “Descrescente”
+Cenário: Exibição de mais produtos
+• Dado que o usuário visualizou os primeiros produtos exibidos
+• E que o usuário quer continuar navegando pelos produtos
+• Quando o usuário clicar em uma nova página ou em “Next”
+• Então o sistema deverá trazer resultados do banco baseados naquela página respeitando
+os filtros existentes.
