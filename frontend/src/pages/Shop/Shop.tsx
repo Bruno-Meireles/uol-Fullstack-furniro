@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 const Shop: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [showPaginationValue, setShowPaginationValue] = useState<number>(16);
-  const [shortValue, setSortValue] = useState<string>("Default");
+  const [shortValue, setShorttValue] = useState<string>("Default");
   const [categories, setCategories] = useState<{ id: number; name: string }[]>(
     []
   );
@@ -22,8 +22,8 @@ const Shop: React.FC = () => {
     setShowPaginationValue(parseInt(e.target.value));
   };
 
-  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSortValue(e.target.value);
+  const handleShorttChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setShorttValue(e.target.value);
   };
 
   const fetchProducts = useCallback(() => {
@@ -39,12 +39,20 @@ const Shop: React.FC = () => {
               )
             : allProducts;
 
-        setProducts(filteredProducts);
+        const shortedProducts = [...filteredProducts];
+
+        if (shortValue === "Lowest price") {
+          shortedProducts.sort((a, b) => a.price - b.price);
+        } else if (shortValue === "Highest price") {
+          shortedProducts.sort((a, b) => b.price - a.price);
+        }
+
+        setProducts(shortedProducts);
       })
       .catch((error) => {
         error("Error fetching products:", error);
       });
-  }, [selectedCategories]);
+  }, [selectedCategories, shortValue]);
 
   const fetchCategories = () => {
     axios
@@ -166,17 +174,17 @@ const Shop: React.FC = () => {
                   id="short-by"
                   name="short-by"
                   value={shortValue}
-                  onChange={handleSortChange}
+                  onChange={handleShorttChange}
                   className="input-short"
                 >
                   <option className="input-value" value="Default">
                     Default
                   </option>
-                  <option className="input-value" value="Crescente">
-                    Ascending
+                  <option className="input-value" value="Lowest price">
+                    Lowest price
                   </option>
-                  <option className="input-value" value="Descrescente">
-                    Descending
+                  <option className="input-value" value="Highest price">
+                    Highest price
                   </option>
                 </select>
               </div>

@@ -25,20 +25,24 @@ export class ProductService {
         is_new: createProductDto.is_new,
         image_link: createProductDto.image_link,
         other_images_link: createProductDto.other_images_link || [],
-        created_date: new Date(), 
+        created_date: new Date(),
         updated_date: new Date(),
         category: {
-          connect: { id: createProductDto.category_id }, 
+          connect: { id: createProductDto.category_id },
         },
       },
     });
   }
 
-  async findAll(): Promise<any[]> {
+  async findAll(short_by?: 'name' | 'price'): Promise<product[]> {
+    const orderBy: any =
+      short_by === 'price' ? { price: 'asc' } : { name: 'asc' }; 
+
     const products = await this.prisma.product.findMany({
       include: {
         category: true,
       },
+      orderBy: orderBy,
     });
 
     return products.map((product) => ({

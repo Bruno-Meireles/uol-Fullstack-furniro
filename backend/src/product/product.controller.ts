@@ -9,6 +9,7 @@ import {
   NotFoundException,
   InternalServerErrorException,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -25,9 +26,12 @@ export class ProductController {
   }
 
   @Get()
-  async findAll(): Promise<product[]> {
-    return this.productService.findAll();
+  async findAll(
+    @Query('short_by') short_by?: 'name' | 'price',
+  ): Promise<product[]> {
+    return this.productService.findAll(short_by);
   }
+
   @Get(':id')
   async findOne(@Param('id') id: number): Promise<product> {
     return this.productService.findOne(id);
