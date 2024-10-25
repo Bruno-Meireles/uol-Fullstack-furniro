@@ -13,26 +13,43 @@ import { ProductQueryDto } from './dto/product-query.dto';
 export class ProductService {
   constructor(private readonly prisma: PrismaService) {}
 
+  // async create(createProductDto: CreateProductDto): Promise<product> {
+  //   return this.prisma.product.create({
+  //     data: {
+
+  //       name: createProductDto.name,
+  //       sku: createProductDto.sku,
+  //       description: createProductDto.description,
+  //       large_description: createProductDto.large_description,
+  //       price: createProductDto.price,
+  //       discount_price: createProductDto.discount_price,
+  //       discount_percent: createProductDto.discount_percent,
+  //       is_new: createProductDto.is_new,
+  //       image_link: createProductDto.image_link,
+  //       other_images_link: createProductDto.other_images_link || [],
+  //       created_date: new Date(),
+  //       updated_date: new Date(),
+  //       category: {
+  //         connect: { id: createProductDto.category_id },
+  //       },
+  //     },
+  //   });
+  // }
   async create(createProductDto: CreateProductDto): Promise<product> {
-    return this.prisma.product.create({
+    const { category_id, ...productData } = createProductDto;
+
+    const newProduct = await this.prisma.product.create({
       data: {
-        name: createProductDto.name,
-        sku: createProductDto.sku,
-        description: createProductDto.description,
-        large_description: createProductDto.large_description,
-        price: createProductDto.price,
-        discount_price: createProductDto.discount_price,
-        discount_percent: createProductDto.discount_percent,
-        is_new: createProductDto.is_new,
-        image_link: createProductDto.image_link,
-        other_images_link: createProductDto.other_images_link || [],
+        ...productData,
         created_date: new Date(),
         updated_date: new Date(),
         category: {
-          connect: { id: createProductDto.category_id },
+          connect: { id: category_id },
         },
       },
     });
+
+    return newProduct; 
   }
 
   sanitizePayload(queryParams: ProductQueryDto) {
@@ -41,7 +58,7 @@ export class ProductService {
 
     const result: any = {
       skip: offset ? Number(offset) : 0,
-      take: Math.min(limit ? Number(limit) : 10, MAX_LIMIT),
+      take: Math.min(limit ? Number(limit) : 16, MAX_LIMIT),
       orderBy: orderBy ? { [orderBy]: 'asc' } : undefined,
     };
 
@@ -95,23 +112,16 @@ export class ProductService {
 
   async update(id: number, productData: UpdateProductDto): Promise<product> {
     console.log('Updating product with ID:', id);
+    const { category_id, ...updatedData } = productData;
+
     return this.prisma.product.update({
       where: { id },
       data: {
-        name: productData.name,
-        sku: productData.sku,
-        description: productData.description,
-        large_description: productData.large_description,
-        price: productData.price,
-        discount_price: productData.discount_price,
-        discount_percent: productData.discount_percent,
-        is_new: productData.is_new,
-        image_link: productData.image_link,
-        other_images_link: productData.other_images_link || [],
+        ...updatedData,
         updated_date: new Date(),
-        ...(productData.category_id && {
+        ...(category_id && {
           category: {
-            connect: { id: productData.category_id },
+            connect: { id: category_id },
           },
         }),
       },
@@ -137,11 +147,11 @@ export class ProductService {
     }
   }
 
-  async exampleTransaction() {
+  async transaction() {
     return this.prisma.$transaction(async (prisma) => {
       const count = await prisma.product.count();
       const products = await prisma.product.findMany({
-        take: 5,
+        take: 4,
         cursor: {
           id: 5,
         },
