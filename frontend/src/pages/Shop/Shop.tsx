@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import BannerItem from "../../components/BannerItem/BannerItem";
 import Support from "../../components/Support/Support";
 import Product from "../../components/ProductCard/ProductCard";
@@ -9,27 +9,91 @@ import { useNavigate } from "react-router-dom";
 
 const Shop: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [productsPerPage] = useState(16);
+  const [showPaginationValue, setShowPaginationValue] = useState<number>(16);
+  const [shortValue, setShorttValue] = useState<string>("Default");
+  const [categories, setCategories] = useState<{ id: number; name: string }[]>(
+    []
+  );
+  const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
+  const [showFilters, setShowFilters] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    window.scrollTo(0, 300);
+  const handleShowChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setShowPaginationValue(parseInt(e.target.value));
+  };
+
+  const handleShorttChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setShorttValue(e.target.value);
+  };
+
+  const fetchProducts = useCallback(() => {
     axios
-      .get("http://localhost:3000/products")
+      .get(`http://localhost:3000/products`)
       .then((response) => {
-        setProducts(response.data);
+        const allProducts = response.data;
+
+        const filteredProducts =
+          selectedCategories.length > 0
+            ? allProducts.filter((product: { category_id: number }) =>
+                selectedCategories.includes(product.category_id)
+              )
+            : allProducts;
+
+        const shortedProducts = [...filteredProducts];
+
+        if (shortValue === "Lowest price") {
+          shortedProducts.sort((a, b) => a.price - b.price);
+        } else if (shortValue === "Highest price") {
+          shortedProducts.sort((a, b) => b.price - a.price);
+        }
+
+        setProducts(shortedProducts);
       })
       .catch((error) => {
-        console.error("Error fetching products:", error);
+        error("Error fetching products:", error);
       });
-  }, []);
+  }, [selectedCategories, shortValue]);
+
+  const fetchCategories = () => {
+    axios
+      .get("http://localhost:3000/categories")
+      .then((response) => {
+        setCategories(response.data);
+      })
+      .catch((error) => {
+        error("Error fetching categories:", error);
+      });
+  };
+
+  const handleFilterChange = (categoryId: number) => {
+    setSelectedCategories((prevSelected) => {
+      const newSelected = prevSelected.includes(categoryId)
+        ? prevSelected.filter((id) => id !== categoryId)
+        : [...prevSelected, categoryId];
+
+      return newSelected;
+    });
+  };
 
   const handleSeeDetails = (productId: number) => {
     navigate(`/products/${productId}`);
   };
-  const handlePagination = () => {
-    console.log("Clicou");
+
+  const toggleFilters = () => {
+    setShowFilters((prevShowFilters) => !prevShowFilters);
   };
+    const handlePagination = () => {
+      console.log("Clicou");
+    };
+
+  useEffect(() => {
+    fetchCategories(); 
+    fetchProducts(); 
+  }, [fetchProducts]);
+
+  useEffect(() => {
+    fetchProducts(); 
+  }, [selectedCategories, fetchProducts]);
 
   return (
     <section className="shop-page">
@@ -44,26 +108,89 @@ const Shop: React.FC = () => {
 
       <div className="filters">
         <div className="content">
-          <div className="filter">
-            <button>
-              <img src="assets/icons/filtering.svg" alt="Filter Icon" />
-              Filter
-            </button>
-            <img src="assets/icons/grid-big-round.svg" alt=" Grid Icon" />
-            <img src="assets/icons/view-list.svg" alt="View list Icon" />
-            <img src="assets/icons/line.svg" alt=" Icon Bar" />
-            <div className="pagination-info">Showing 1–16 of 32 results</div>
-            <div className="controls">
-              <label htmlFor="Show">Show</label>
-              <input
-                type="number"
-                name="show"
-                id="show"
-                min={1}
-                defaultValue={16}
+          <div className="controls">
+            <div className="controls-left">
+              <img
+                src="assets/icons/filtering.svg"
+                alt="Filter Icon"
+                className="icon-filter"
               />
-              <label htmlFor="Short">Short by</label>
-              <input type="text" placeholder="Default" />
+              <div>
+                <button onClick={toggleFilters} className="filter-btn">
+                  Filter
+                </button>
+
+                {showFilters && (
+                  <div className="category-filters">
+                    {categories.map((category) => (
+                      <label key={category.id}>
+                        <input
+                          className="check"
+                          type="checkbox"
+                          value={category.id}
+                          onChange={() => handleFilterChange(category.id)}
+                          checked={selectedCategories.includes(category.id)}
+                        />
+                        {category.name}
+                      </label>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <img
+                src="assets/icons/grid-big-round.svg"
+                alt="Grid Icon"
+                className="icon-filter"
+              />
+              <img
+                src="assets/icons/view-list.svg"
+                alt="List Icon"
+                className="icon-filter"
+              />
+              <img
+                src="assets/icons/line.svg"
+                alt="Icon Bar"
+                className="icon-bar"
+              />
+              <div className="pagination-info">
+                Showing 1–{showPaginationValue} of {products.length} results
+              </div>
+
+              <div className="controls-right">
+                <label htmlFor="show" className="label">
+                  Show
+                </label>
+                <input
+                  type="number"
+                  id="show"
+                  name="show"
+                  min={1}
+                  value={showPaginationValue}
+                  onChange={handleShowChange}
+                  className="input"
+                />
+                <label htmlFor="short-by" className="label">
+                  Short by
+                </label>
+                <select
+                  id="short-by"
+                  name="short-by"
+                  value={shortValue}
+                  onChange={handleShorttChange}
+                  className="input-short"
+                >
+                  <option className="input-value" value="Default">
+                    Default
+                  </option>
+                  <option className="input-value" value="Lowest price">
+                    Lowest price
+                  </option>
+                  <option className="input-value" value="Highest price">
+                    Highest price
+                  </option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
@@ -71,7 +198,7 @@ const Shop: React.FC = () => {
 
       <div className="product-content">
         <div className="product-flex">
-          {products.slice(0, productsPerPage).map((product) => (
+          {products.slice(0, showPaginationValue).map((product) => (
             <Product
               key={product.id}
               product={product}

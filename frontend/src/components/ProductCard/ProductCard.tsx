@@ -1,5 +1,11 @@
-const Product: React.FC<IProps> = (props) => {
-  const { product, onSeeDetails } = props;
+const Product: React.FC<IProps> = ({ product, onSeeDetails }) => {
+  const discountedPrice = product.discount_percent
+    ? (
+        (parseFloat(product.price) *
+          (1 - parseFloat(product.discount_percent) / 100)) /
+        100
+      ).toFixed(2)
+    : parseFloat(product.price).toFixed(2);
 
   return (
     <div className="product-card" key={product.id}>
@@ -16,49 +22,36 @@ const Product: React.FC<IProps> = (props) => {
           >
             See Details
           </button>
-          <div className="actions">
-            <div className="action">
-              <img
-                src="/assets/icons/share.svg"
-                alt="Share"
-                className="actions-icon"
-              />
-              <span>Share</span>
-            </div>
-            <div className="action">
-              <img
-                src="/assets/icons/compare.svg"
-                alt="Compare"
-                className="actions-icon"
-              />
-              <span>Compare</span>
-            </div>
-            <div className="action">
-              <img
-                src="/assets/icons/like.svg"
-                alt="Like"
-                className="actions-icon"
-              />
-              <span>Like</span>
-            </div>
-          </div>
         </div>
       </div>
       <h3 className="product-title">{product.name}</h3>
       <p className="product-sub-title">{product.description}</p>
       <div className="price-container">
-        <p className="price">
-          R$
-          <span className="price-value-discount">
-            {parseFloat(product.price).toLocaleString("pt-BR")}
-          </span>
-        </p>
-
-        {product.discount_price && (
-          <p className="original-price">
+        {product.discount_percent ? (
+          <>
+            <p className="price">
+              R$
+              <span className="price-value-discount">
+                {discountedPrice &&
+                  parseFloat(discountedPrice).toLocaleString("pt-BR", {
+                    minimumFractionDigits: 2,
+                  })}
+              </span>
+            </p>
+            <p className="original-price">
+              R$
+              <span className="price-value">
+                {(parseFloat(product.price) / 100).toLocaleString("pt-BR", {
+                  minimumFractionDigits: 2,
+                })}
+              </span>
+            </p>
+          </>
+        ) : (
+          <p className="price">
             R$
             <span className="price-value">
-              {parseFloat(product.discount_price).toLocaleString("pt-BR")}
+              {parseFloat(product.price).toLocaleString("pt-BR")}
             </span>
           </p>
         )}
@@ -72,10 +65,8 @@ interface Product {
   name: string;
   description: string;
   price: string;
-  discount_price?: string;
   discount_percent?: string;
   image_link: string;
-  other_images_link: string[];
   is_new?: boolean;
 }
 

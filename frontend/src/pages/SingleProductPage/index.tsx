@@ -4,6 +4,7 @@ import ProductsList from "../Home/ProductList/ProductList";
 import axios from "axios";
 import "./SingleProductPage.css";
 import ProductDetailItem from "./ProductDetailItem/ProductDetailItem";
+import DescriptionAdditional from "./DescriptionAdditional/DescriptionAdditional";
 
 const SingleProductPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -11,7 +12,7 @@ const SingleProductPage: React.FC = () => {
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
-     window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
     axios
       .get(`http://localhost:3000/products/${id}`)
       .then((response) => {
@@ -58,8 +59,16 @@ const SingleProductPage: React.FC = () => {
           />
         </div>
       </section>
-
       <div className="separador"></div>
+
+      <DescriptionAdditional
+        title="Description"
+        h4="Additional Information"
+        paragraph="Embodying the raw, wayward spirit of rock ‘n’ roll, the Kilburn portable active stereo speaker takes the unmistakable look and sound of Marshall, unplugs the chords, and takes the show on the road.
+        "
+        paragraph2="Weighing in under 7 pounds, the Kilburn is a lightweight piece of vintage styled engineering. Setting the bar as one of the loudest speakers in its class, the Kilburn is a compact, stout-hearted hero with a well-balanced audio which boasts a clear midrange and extended highs for a sound that is both articulate and pronounced. The analogue knobs allow you to fine tune the controls to your personal preferences while the guitar-influenced leather strap enables easy and stylish travel."
+      />
+
       <ProductsList title="Related Products" limit={4} isSinglePage={true} />
     </div>
   );
@@ -75,7 +84,7 @@ interface Product {
   image_link: string;
   other_images_link: string[];
   is_new?: boolean;
-  sku: string
-}
+  sku: string;
+ }
 
 export default SingleProductPage;

@@ -1,0 +1,30 @@
+
+.description{
+    padding-bottom: 5rem;
+}
+.description-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    text-align: center;
+    min-height: 330px;
+}
+
+.desctipion-titles {
+    display: flex;
+    justify-content: center;
+    gap: 3%;
+}
+
+.description-aditional {
+    color: #9F9F9F;
+}
+
+.description-paragraph {
+    display: flex;
+    flex-direction: column;
+    text-align: justify;
+    padding: 0 14%;
+    font-size: 1rem;
+    color: #9F9F9F;
+}

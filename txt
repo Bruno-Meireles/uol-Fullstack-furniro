@@ -1,0 +1,25 @@
+Cenário: Rolar página
+• Dado que o usuário acessou a aplicação
+• E que o sistema está funcionando corretamente
+• Quando o usuário rolar a página
+• Então o sistema deverá exibir em sua primeira seção, opções de categorias.
+
+Dado que o usuário visualizou as categorias
+• E que o sistema está funcionando corretamente
+Restrita
+Restrita
+• Quando o usuário clicar em uma opção de categoria
+• Então o sistema deverá redirecionar para uma página de listagem de produtos da
+categoria referente.
+
+Cenário: Indicação de desconto ou itens novos
+• Dado que o usuário está visualizando os produtos
+• E que o sistema está funcionando corretamente
+• Então o sistema deverá exibir uma espécie de tag nos produtos novos e nos produtos
+com desconto
+
+Cenário: Definição de ordem
+• Dado que o usuário entrou na tela Shop
+• E que o usuário quer ordernar os produtos
+• Quando o usuário clicar no campo definido para “Short by”
+• Então o sistema deverá exibir duas opções de listagem, “Crescente” ou “Descrescente”

@@ -163,11 +163,22 @@
     border-radius: 10px;
 }
 
+
 .quantity-button {
     border: none;
     background-color: white;
+    cursor: pointer;
 }
 
+.add-to-cart:hover {
+    background-color: #B88E2F;
+    color: #FFFFFF;
+}
+
+.compare:hover {
+    background-color: #B88E2F;
+    color: #FFFFFF;
+}
 
 .add-to-cart {
     min-width: 215px;
@@ -204,14 +215,22 @@
 
 .product-meta-detail {
     display: grid;
-    grid-template-columns: 90px 1fr;
+    grid-template-columns: 120px 1fr;
     align-items: center;
     width: 100%;
+
+}
+
+.label {
+    color: #9F9F9F;
+    font-size: 1rem;
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-400);
 }
 
 .share {
     display: flex;
-    justify-content: flex-start;
+    align-items: center;
     gap: 20px;
 }
 
@@ -221,4 +240,5 @@
 
 .separador {
     border: solid 1px #D9D9D9;
+    margin-bottom: 3rem;
 }

@@ -1,11 +1,5 @@
 import React from "react";
-import "./ProuctDetailItem.css"
-
-interface ProductDetailItemProps {
-  product: Product;
-  quantity: number;
-  handleQuantityChange: (action: string) => void;
-}
+import "./ProductDetailItem.css";
 
 const ProductDetailItem: React.FC<ProductDetailItemProps> = ({
   product,
@@ -18,18 +12,16 @@ const ProductDetailItem: React.FC<ProductDetailItemProps> = ({
         <div className="container-detail">
           <div className="other-images">
             {Array.isArray(product.other_images_link) &&
-            product.other_images_link.length > 0 ? (
-              product.other_images_link.map((image, index) => (
-                <img
-                  key={index} 
-                  className="other-images-item"
-                  src={image}
-                  alt={`${product.name} image ${index + 1}`}
-                />
-              ))
-            ) : (
-              <p>No additional images available.</p> 
-            )}
+            product.other_images_link.length > 0
+              ? product.other_images_link.map((image, index) => (
+                  <img
+                    key={index}
+                    className="other-images-item"
+                    src={image}
+                    alt={`${product.name} image ${index + 1}`}
+                  />
+                ))
+              : null}
           </div>
 
           <div className="image-big">
@@ -43,21 +35,30 @@ const ProductDetailItem: React.FC<ProductDetailItemProps> = ({
           <div className="detalhes--grandes">
             <h3 className="detail-title">{product.name}</h3>
             <span className="price-customer">
-              {new Intl.NumberFormat("pt-BR", {
-                style: "currency",
-                currency: "BRL",
-              }).format(parseFloat(product.price))}
+              {product.discount_percent
+                ? new Intl.NumberFormat("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  }).format(
+                    (parseFloat(product.price) *
+                      (1 - parseFloat(product.discount_percent) / 100)) /
+                      100
+                  )
+                : new Intl.NumberFormat("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  }).format(parseFloat(product.price))}
             </span>
             <div className="detail-price-customer">
               <img
                 className="detail-stars"
                 src="/assets/icons/stars.svg"
-                alt="stars"
+                alt="Rating stars"
               />
               <img
                 className="detail-bar"
                 src="/assets/icons/line.svg"
-                alt=" bar"
+                alt="Line bar"
               />
               <p className="detail-customer">5 Customer Review</p>
             </div>
@@ -103,7 +104,7 @@ const ProductDetailItem: React.FC<ProductDetailItemProps> = ({
             <div className="product-meta">
               <div className="product-meta-detail">
                 <span className="label">SKU</span>
-                <span className="value">: SS001</span>
+                <span className="value">: {product.sku}</span>
               </div>
               <div className="product-meta-detail">
                 <span className="label">Category</span>
@@ -144,6 +145,13 @@ interface Product {
   image_link: string;
   other_images_link: string[];
   is_new?: boolean;
+  sku: string;
+}
+
+interface ProductDetailItemProps {
+  product: Product;
+  quantity: number;
+  handleQuantityChange: (action: string) => void;
 }
 
 export default ProductDetailItem;
