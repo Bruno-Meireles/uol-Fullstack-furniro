@@ -104,7 +104,6 @@ export class ProductService {
   }
 
   async update(id: number, productData: UpdateProductDto): Promise<product> {
-    console.log('Updating product with ID:', id);
     const { category_id, ...updatedData } = productData;
 
     return this.prisma.product.update({

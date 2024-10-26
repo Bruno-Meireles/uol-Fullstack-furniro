@@ -1,14 +1,20 @@
 import "./Browse.css";
+import { useNavigate } from "react-router-dom";
 
 const BrowseItem: React.FC<BrowseItemProps> = ({ imageUrl, title, link }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(link);
+  };
+
   return (
-    <a href={link} className="browser-item">
+    <div className="browser-item" onClick={handleClick}>
       <img src={imageUrl} alt={title} className="browser-image" />
       <h4 className="browser-title">{title}</h4>
-    </a>
+    </div>
   );
 };
-
 const Browse: React.FC = () => {
   return (
     <section className="browser-section">
@@ -17,17 +23,17 @@ const Browse: React.FC = () => {
         <BrowseItem
           imageUrl="/assets/images/Mask-table.png"
           title="Dining"
-          link="#"
+          link="/products/category/3" 
         />
         <BrowseItem
           imageUrl="/assets/images/Image-room.png"
           title="Living"
-          link="#"
+          link="/products/category/2" 
         />
         <BrowseItem
           imageUrl="/assets/images/Mask-plant.png"
           title="Bedroom"
-          link="#"
+          link="/products/category/1"
         />
       </div>
     </section>

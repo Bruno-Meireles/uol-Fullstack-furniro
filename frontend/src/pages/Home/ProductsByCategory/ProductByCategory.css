@@ -1,0 +1,9 @@
+.category-suport {
+    padding-top: 5rem;
+}
+
+.category {
+    display: flex;
+    justify-content: center;
+    padding: 5rem;
+}

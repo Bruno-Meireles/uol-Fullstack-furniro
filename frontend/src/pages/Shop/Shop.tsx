@@ -21,10 +21,8 @@ const Shop: React.FC = () => {
   const [showFilters, setShowFilters] = useState<boolean>(false);
   const [totalProducts, setTotalProducts] = useState<number>(0);
 
-
   const limit = showPaginationValue;
   const offset = (currentPage - 1) * limit;
-
   const navigate = useNavigate();
 
   const fetchProducts = useCallback(() => {
@@ -32,21 +30,24 @@ const Shop: React.FC = () => {
     if (shortValue === "Lowest price") {
       orderBy = "lowest";
     } else if (shortValue === "Highest price") {
-      orderBy = "highest"; 
+      orderBy = "highest";
     } else {
-      orderBy = undefined; 
+      orderBy = undefined;
     }
+
     axios
       .get(`http://localhost:3000/products`, {
         params: {
           limit,
           orderBy,
           offset,
+          selectedCategories,
         },
       })
       .then((response) => {
         const allProducts = response.data.items;
-        setTotalProducts(response.data.totalCount); 
+        setTotalProducts(response.data.totalCount);
+
         const filteredProducts =
           selectedCategories.length > 0
             ? allProducts.filter((product: { category_id: number }) =>
@@ -72,15 +73,13 @@ const Shop: React.FC = () => {
       });
   };
 
-  
-
   const handleFilterChange = (categoryId: number) => {
     setSelectedCategories((prevSelected) => {
       const newSelected = prevSelected.includes(categoryId)
         ? prevSelected.filter((id) => id !== categoryId)
         : [...prevSelected, categoryId];
 
-      setCurrentPage(1);
+      setCurrentPage(1); // Resetar para a primeira página ao mudar os filtros
       return newSelected;
     });
   };
@@ -105,7 +104,7 @@ const Shop: React.FC = () => {
   }, [fetchProducts]);
 
   useEffect(() => {
-    fetchProducts(); 
+    fetchProducts();
   }, [selectedCategories, currentPage, fetchProducts]);
 
   return (
@@ -182,8 +181,8 @@ const Shop: React.FC = () => {
                   className="input-short"
                 >
                   <option value="Default">Default</option>
-                  <option value="Lowest price">Lowest </option>
-                  <option value="Highest price">Highest </option>
+                  <option value="Lowest price">Lowest</option>
+                  <option value="Highest price">Highest</option>
                 </select>
               </div>
             </div>
@@ -201,6 +200,8 @@ const Shop: React.FC = () => {
             />
           ))}
         </div>
+
+        {/* Paginação */}
         <div className="pagination-buttons">
           {[...Array(Math.ceil(totalProducts / limit))].map((_, index) => (
             <button
