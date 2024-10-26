@@ -13,7 +13,6 @@ import { ProductQueryDto } from './dto/product-query.dto';
 export class ProductService {
   constructor(private readonly prisma: PrismaService) {}
 
- 
   async create(createProductDto: CreateProductDto): Promise<product> {
     const { category_id, ...productData } = createProductDto;
 
@@ -35,16 +34,23 @@ export class ProductService {
     const { limit, offset, categoryId, orderBy } = queryParams;
     const MAX_LIMIT = 100;
 
+    let orderByCondition;
+
+    if (orderBy === 'lowest') {
+      orderByCondition = { price: 'asc' };
+    } else if (orderBy === 'highest') {
+      orderByCondition = { price: 'desc' };
+    }
+
     const result: any = {
       skip: offset ? Number(offset) : 0,
       take: Math.min(limit ? Number(limit) : 16, MAX_LIMIT),
-      orderBy: orderBy ? { [orderBy]: 'asc' } : undefined,
+      orderBy: orderByCondition,
     };
 
     if (categoryId) {
       result.where = { category_id: parseInt(categoryId.toString(), 10) };
     }
-
     return result;
   }
 

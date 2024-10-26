@@ -2,9 +2,11 @@ import { IsOptional, IsEnum, IsInt } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export enum OrderBy {
-  NAME = 'name',
-  PRICE = 'price',
+  DEFAULT = 'default',
+  LOWEST = 'lowest',
+  HIGHEST = 'highest', 
 }
+
 
 export class ProductQueryDto {
   @IsOptional()
