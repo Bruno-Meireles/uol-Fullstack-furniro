@@ -7,61 +7,74 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { product } from '@prisma/client';
 import { UpdateProductDto } from './dto/updateProductDto';
+import { ProductQueryDto } from './dto/product-query.dto';
 
 @Injectable()
 export class ProductService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createProductDto: CreateProductDto): Promise<product> {
-    return this.prisma.product.create({
+    const { category_id, ...productData } = createProductDto;
+
+    const newProduct = await this.prisma.product.create({
       data: {
-        name: createProductDto.name,
-        sku: createProductDto.sku,
-        description: createProductDto.description,
-        large_description: createProductDto.large_description,
-        price: createProductDto.price,
-        discount_price: createProductDto.discount_price,
-        discount_percent: createProductDto.discount_percent,
-        is_new: createProductDto.is_new,
-        image_link: createProductDto.image_link,
-        other_images_link: createProductDto.other_images_link || [],
+        ...productData,
         created_date: new Date(),
         updated_date: new Date(),
         category: {
-          connect: { id: createProductDto.category_id },
+          connect: { id: category_id },
         },
       },
     });
+
+    return newProduct;
   }
 
-  async findAll(short_by?: 'name' | 'price'): Promise<product[]> {
-    const orderBy: any =
-      short_by === 'price' ? { price: 'asc' } : { name: 'asc' }; 
+  sanitizePayload(queryParams: ProductQueryDto) {
+    const { limit, offset, categoryId, orderBy } = queryParams;
+    const MAX_LIMIT = 100;
 
-    const products = await this.prisma.product.findMany({
+    let orderByCondition;
+
+    if (orderBy === 'lowest') {
+      orderByCondition = { price: 'asc' };
+    } else if (orderBy === 'highest') {
+      orderByCondition = { price: 'desc' };
+    }
+
+    const result: any = {
+      skip: offset ? Number(offset) : 0,
+      take: Math.min(limit ? Number(limit) : 16, MAX_LIMIT),
+      orderBy: orderByCondition,
+    };
+
+    if (categoryId) {
+      result.where = { category_id: parseInt(categoryId.toString(), 10) };
+    }
+    return result;
+  }
+
+  async findAll(
+    queryParams: ProductQueryDto,
+  ): Promise<{ totalCount: number; items: product[] }> {
+    const payload = this.sanitizePayload(queryParams);
+
+    const totalCount = await this.prisma.product.count({
+      where: payload.where,
+    });
+
+    const items = await this.prisma.product.findMany({
+      ...payload,
       include: {
         category: true,
       },
-      orderBy: orderBy,
     });
 
-    return products.map((product) => ({
-      id: product.id,
-      name: product.name,
-      sku: product.sku,
-      category_id: product.category_id,
-      description: product.description,
-      large_description: product.large_description,
-      price: product.price,
-      discount_price: product.discount_price,
-      discount_percent: product.discount_percent,
-      is_new: product.is_new,
-      image_link: product.image_link,
-      other_images_link: product.other_images_link || [],
-      created_date: product.created_date,
-      updated_date: product.updated_date,
-      category: product.category,
-    }));
+    return { totalCount, items };
+  }
+
+  async countProducts(): Promise<number> {
+    return this.prisma.product.count();
   }
 
   async findOne(id: number): Promise<any> {
@@ -76,23 +89,7 @@ export class ProductService {
       throw new NotFoundException('Produto não encontrado');
     }
 
-    return {
-      id: product.id,
-      name: product.name,
-      sku: product.sku,
-      category_id: product.category_id,
-      description: product.description,
-      large_description: product.large_description,
-      price: product.price,
-      discount_price: product.discount_price,
-      discount_percent: product.discount_percent,
-      is_new: product.is_new,
-      image_link: product.image_link,
-      other_images_link: product.other_images_link || [],
-      created_date: product.created_date,
-      updated_date: product.updated_date,
-      category: product.category,
-    };
+    return product;
   }
 
   async findByCategory(categoryId: number): Promise<product[]> {
@@ -100,27 +97,23 @@ export class ProductService {
       where: {
         category_id: categoryId,
       },
+      include: {
+        category: true,
+      },
     });
   }
 
   async update(id: number, productData: UpdateProductDto): Promise<product> {
+    const { category_id, ...updatedData } = productData;
+
     return this.prisma.product.update({
       where: { id },
       data: {
-        name: productData.name,
-        sku: productData.sku,
-        description: productData.description,
-        large_description: productData.large_description,
-        price: productData.price,
-        discount_price: productData.discount_price,
-        discount_percent: productData.discount_percent,
-        is_new: productData.is_new,
-        image_link: productData.image_link,
-        other_images_link: productData.other_images_link || [],
+        ...updatedData,
         updated_date: new Date(),
-        ...(productData.category_id && {
+        ...(category_id && {
           category: {
-            connect: { id: productData.category_id },
+            connect: { id: category_id },
           },
         }),
       },
@@ -131,20 +124,32 @@ export class ProductService {
     const productToDelete = await this.prisma.product.findUnique({
       where: { id },
     });
-
     if (!productToDelete) {
       throw new NotFoundException('Produto não encontrado');
     }
 
     try {
-      return this.prisma.product.delete({
+      return await this.prisma.product.delete({
         where: { id },
       });
     } catch (error) {
-      console.error('Erro ao deletar produto:', error);
       throw new InternalServerErrorException(
-        'Erro ao tentar excluir o produto',
+        `Erro ao tentar excluir o produto: ${error.message}`,
       );
     }
+  }
+
+  async transaction() {
+    return this.prisma.$transaction(async (prisma) => {
+      const count = await prisma.product.count();
+      const products = await prisma.product.findMany({
+        take: 4,
+        cursor: {
+          id: 5,
+        },
+      });
+
+      return { count, products };
+    });
   }
 }

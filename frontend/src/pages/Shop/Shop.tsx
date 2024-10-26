@@ -1,36 +1,53 @@
 import { useEffect, useState, useCallback } from "react";
 import BannerItem from "../../components/BannerItem/BannerItem";
 import Support from "../../components/Support/Support";
-import Product from "../../components/ProductCard/ProductCard";
+import Product, {
+  ProductInterface,
+} from "../../components/ProductCard/ProductCard";
 import "../../pages/Home/ProductList/ProductList.css";
 import "./Shop.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Shop: React.FC = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ProductInterface[]>([]);
   const [showPaginationValue, setShowPaginationValue] = useState<number>(16);
-  const [shortValue, setShorttValue] = useState<string>("Default");
+  const [shortValue, setShortValue] = useState<string>("Default");
   const [categories, setCategories] = useState<{ id: number; name: string }[]>(
     []
   );
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
   const [showFilters, setShowFilters] = useState<boolean>(false);
+  const [totalProducts, setTotalProducts] = useState<number>(0);
+
+  const limit = showPaginationValue;
+  const offset = (currentPage - 1) * limit;
   const navigate = useNavigate();
 
-  const handleShowChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setShowPaginationValue(parseInt(e.target.value));
-  };
-
-  const handleShorttChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setShorttValue(e.target.value);
-  };
-
   const fetchProducts = useCallback(() => {
+      window.scrollTo(0,300 );
+    let orderBy: string | undefined;
+    if (shortValue === "Lowest price") {
+      orderBy = "lowest";
+    } else if (shortValue === "Highest price") {
+      orderBy = "highest";
+    } else {
+      orderBy = undefined;
+    }
+
     axios
-      .get(`http://localhost:3000/products`)
+      .get(`http://localhost:3000/products`, {
+        params: {
+          limit,
+          orderBy,
+          offset,
+          selectedCategories,
+        },
+      })
       .then((response) => {
-        const allProducts = response.data;
+        const allProducts = response.data.items;
+        setTotalProducts(response.data.totalCount);
 
         const filteredProducts =
           selectedCategories.length > 0
@@ -39,20 +56,12 @@ const Shop: React.FC = () => {
               )
             : allProducts;
 
-        const shortedProducts = [...filteredProducts];
-
-        if (shortValue === "Lowest price") {
-          shortedProducts.sort((a, b) => a.price - b.price);
-        } else if (shortValue === "Highest price") {
-          shortedProducts.sort((a, b) => b.price - a.price);
-        }
-
-        setProducts(shortedProducts);
+        setProducts(filteredProducts);
       })
       .catch((error) => {
-        error("Error fetching products:", error);
+        console.error("Error fetching products:", error);
       });
-  }, [selectedCategories, shortValue]);
+  }, [selectedCategories, limit, shortValue, offset]);
 
   const fetchCategories = () => {
     axios
@@ -61,7 +70,7 @@ const Shop: React.FC = () => {
         setCategories(response.data);
       })
       .catch((error) => {
-        error("Error fetching categories:", error);
+        console.error("Error fetching categories:", error);
       });
   };
 
@@ -71,6 +80,7 @@ const Shop: React.FC = () => {
         ? prevSelected.filter((id) => id !== categoryId)
         : [...prevSelected, categoryId];
 
+      setCurrentPage(1); // Resetar para a primeira página ao mudar os filtros
       return newSelected;
     });
   };
@@ -82,18 +92,21 @@ const Shop: React.FC = () => {
   const toggleFilters = () => {
     setShowFilters((prevShowFilters) => !prevShowFilters);
   };
-    const handlePagination = () => {
-      console.log("Clicou");
-    };
+
+  const handlePagination = (page: number) => {
+    if (page > 0 && page <= Math.ceil(totalProducts / limit)) {
+      setCurrentPage(page);
+    }
+  };
 
   useEffect(() => {
-    fetchCategories(); 
-    fetchProducts(); 
+    fetchCategories();
+    fetchProducts();
   }, [fetchProducts]);
 
   useEffect(() => {
-    fetchProducts(); 
-  }, [selectedCategories, fetchProducts]);
+    fetchProducts();
+  }, [selectedCategories, currentPage, fetchProducts]);
 
   return (
     <section className="shop-page">
@@ -138,27 +151,13 @@ const Shop: React.FC = () => {
                 )}
               </div>
 
-              <img
-                src="assets/icons/grid-big-round.svg"
-                alt="Grid Icon"
-                className="icon-filter"
-              />
-              <img
-                src="assets/icons/view-list.svg"
-                alt="List Icon"
-                className="icon-filter"
-              />
-              <img
-                src="assets/icons/line.svg"
-                alt="Icon Bar"
-                className="icon-bar"
-              />
               <div className="pagination-info">
-                Showing 1–{showPaginationValue} of {products.length} results
+                Showing {offset + 1}–{Math.min(offset + limit, totalProducts)}{" "}
+                of {totalProducts} results
               </div>
 
               <div className="controls-right">
-                <label htmlFor="show" className="label">
+                <label htmlFor="show" className="label-filter">
                   Show
                 </label>
                 <input
@@ -167,28 +166,24 @@ const Shop: React.FC = () => {
                   name="show"
                   min={1}
                   value={showPaginationValue}
-                  onChange={handleShowChange}
+                  onChange={(e) =>
+                    setShowPaginationValue(parseInt(e.target.value))
+                  }
                   className="input"
                 />
-                <label htmlFor="short-by" className="label">
-                  Short by
+                <label htmlFor="short-by" className="label-filter">
+                  Sort by
                 </label>
                 <select
                   id="short-by"
                   name="short-by"
                   value={shortValue}
-                  onChange={handleShorttChange}
+                  onChange={(e) => setShortValue(e.target.value)}
                   className="input-short"
                 >
-                  <option className="input-value" value="Default">
-                    Default
-                  </option>
-                  <option className="input-value" value="Lowest price">
-                    Lowest price
-                  </option>
-                  <option className="input-value" value="Highest price">
-                    Highest price
-                  </option>
+                  <option value="Default">Default</option>
+                  <option value="Lowest price">Lowest</option>
+                  <option value="Highest price">Highest</option>
                 </select>
               </div>
             </div>
@@ -198,7 +193,7 @@ const Shop: React.FC = () => {
 
       <div className="product-content">
         <div className="product-flex">
-          {products.slice(0, showPaginationValue).map((product) => (
+          {products.map((product) => (
             <Product
               key={product.id}
               product={product}
@@ -206,30 +201,25 @@ const Shop: React.FC = () => {
             />
           ))}
         </div>
+
         <div className="pagination-buttons">
-          <div className="pagination">
-            <button className="pagination-button" onClick={handlePagination}>
-              1
-            </button>
-          </div>
-          <div className="pagination">
-            <button className="pagination-button" onClick={handlePagination}>
-              2
-            </button>
-          </div>
-          <div className="pagination">
-            <button className="pagination-button" onClick={handlePagination}>
-              3
-            </button>
-          </div>
-          <div className="pagination">
+          {[...Array(Math.ceil(totalProducts / limit))].map((_, index) => (
             <button
-              className="pagination-button pagination-button-next"
-              onClick={handlePagination}
+              key={index}
+              className="pagination-button"
+              onClick={() => handlePagination(index + 1)}
+              disabled={index + 1 === currentPage}
             >
-              Next
+              {index + 1}
             </button>
-          </div>
+          ))}
+          <button
+            className="pagination-button pagination-button-next"
+            onClick={() => handlePagination(currentPage + 1)}
+            disabled={currentPage >= Math.ceil(totalProducts / limit)}
+          >
+            Next
+          </button>
         </div>
       </div>
 

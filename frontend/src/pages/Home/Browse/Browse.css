@@ -6,6 +6,7 @@
 .browser-title {
     font-size: 2rem;
     padding: 40px 0;
+    cursor: pointer;
 }
 
 .browser-container {
@@ -23,7 +24,9 @@
     height: auto;
     border-radius: 8px;
 }
-
+.browser-item img:hover {
+    transform: translateY(-5px);
+}
 .browser-item h4 {
     margin-top: 10px;
     font-size: 24px;

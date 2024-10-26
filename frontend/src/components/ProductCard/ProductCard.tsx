@@ -60,7 +60,7 @@ const Product: React.FC<IProps> = ({ product, onSeeDetails }) => {
   );
 };
 
-interface Product {
+export  interface ProductInterface {
   id: number;
   name: string;
   description: string;
@@ -71,7 +71,7 @@ interface Product {
 }
 
 interface IProps {
-  product: Product;
+  product: ProductInterface;
   onSeeDetails: (productId: number) => void;
 }
 
