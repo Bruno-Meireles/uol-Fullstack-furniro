@@ -26,6 +26,7 @@ const Shop: React.FC = () => {
   const navigate = useNavigate();
 
   const fetchProducts = useCallback(() => {
+      window.scrollTo(0,300 );
     let orderBy: string | undefined;
     if (shortValue === "Lowest price") {
       orderBy = "lowest";

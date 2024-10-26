@@ -15,6 +15,7 @@ const ProductsByCategory: React.FC<{ categoryId: number }> = ({
   const navigate = useNavigate();
 
   useEffect(() => {
+      window.scrollTo(0, 0);
     const fetchProducts = async () => {
       try {
         const response = await fetch(
@@ -42,7 +43,7 @@ const ProductsByCategory: React.FC<{ categoryId: number }> = ({
   return (
     <div className="content">
       <BannerItem
-        imgUrl="/assets/images/scandinavian.png"
+        imgUrl="/assets/images/RectangleImage.png"
         type={"tipo2"}
         linkHome="/"
         icon="/assets/icons/arrow.svg"
