@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Product, {
-  ProductInterface,
-} from "../../../components/ProductCard/ProductCard";
-import "../ProductList/ProductList.css";
-import "./ProductByCategory.css";
-import BannerItem from "../../../components/BannerItem/BannerItem";
-import Support from "../../../components/Support/Support";
+import "./ProductByCategory.css"
+import BannerItem from "../BannerItem/BannerItem";
+import "../../pages/Home/ProductList/ProductList.css";
+import Support from "../Support/Support";
+import Product, { ProductInterface } from "../ProductCard/ProductCard";
 
 const ProductsByCategory: React.FC<{ categoryId: number }> = ({
   categoryId,

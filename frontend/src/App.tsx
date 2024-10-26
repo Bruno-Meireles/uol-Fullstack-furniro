@@ -6,7 +6,8 @@ import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import Home from "./pages/Home";
 import SingleProductPage from "./pages/SingleProductPage";
-import ProductsByCategory from "./pages/Home/ProductsByCategory/ProductsByCategory";
+import ProductsByCategory from "./components/ProductsByCategory/ProductsByCategory";
+
 
 const App: React.FC = () => {
   return (
