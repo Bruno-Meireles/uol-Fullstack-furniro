@@ -80,7 +80,7 @@ const Shop: React.FC = () => {
         ? prevSelected.filter((id) => id !== categoryId)
         : [...prevSelected, categoryId];
 
-      setCurrentPage(1); // Resetar para a primeira página ao mudar os filtros
+      setCurrentPage(1);
       return newSelected;
     });
   };
