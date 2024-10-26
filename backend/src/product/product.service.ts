@@ -13,7 +13,7 @@ import { ProductQueryDto } from './dto/product-query.dto';
 export class ProductService {
   constructor(private readonly prisma: PrismaService) {}
 
-
+ 
   async create(createProductDto: CreateProductDto): Promise<product> {
     const { category_id, ...productData } = createProductDto;
 

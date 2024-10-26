@@ -1,7 +1,9 @@
 import { useEffect, useState, useCallback } from "react";
 import BannerItem from "../../components/BannerItem/BannerItem";
 import Support from "../../components/Support/Support";
-import Product, { ProductInterface } from "../../components/ProductCard/ProductCard";
+import Product, {
+  ProductInterface,
+} from "../../components/ProductCard/ProductCard";
 import "../../pages/Home/ProductList/ProductList.css";
 import "./Shop.css";
 import axios from "axios";
@@ -28,7 +30,11 @@ const Shop: React.FC = () => {
 
   const fetchProducts = useCallback(() => {
     axios
-      .get(`http://localhost:3000/products`)
+      .get(`http://localhost:3000/products`, {
+        params: {
+          limit: showPaginationValue
+        }
+      })
       .then((response) => {
         const allProducts = response.data.items;
 
@@ -41,19 +47,12 @@ const Shop: React.FC = () => {
 
         const shortedProducts = [...filteredProducts];
 
-        if (shortValue === "Lowest price") {
-          shortedProducts.sort((a, b) => a.price - b.price);
-        } else if (shortValue === "Highest price") {
-          shortedProducts.sort((a, b) => b.price - a.price);
-        }
-
         setProducts(shortedProducts);
       })
       .catch((error) => {
         error("Error fetching products:", error);
       });
-    
-  }, [selectedCategories, shortValue]);
+  }, [selectedCategories, showPaginationValue]);
 
   const fetchCategories = () => {
     axios
