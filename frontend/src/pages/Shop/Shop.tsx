@@ -156,7 +156,7 @@ const Shop: React.FC = () => {
               </div>
 
               <div className="controls-right">
-                <label htmlFor="show" className="label">
+                <label htmlFor="show" className="label-filter">
                   Show
                 </label>
                 <input
@@ -170,7 +170,7 @@ const Shop: React.FC = () => {
                   }
                   className="input"
                 />
-                <label htmlFor="short-by" className="label">
+                <label htmlFor="short-by" className="label-filter">
                   Sort by
                 </label>
                 <select
@@ -192,7 +192,7 @@ const Shop: React.FC = () => {
 
       <div className="product-content">
         <div className="product-flex">
-          {products.slice(offset, offset + limit).map((product) => (
+          {products.map((product) => (
             <Product
               key={product.id}
               product={product}
@@ -201,7 +201,6 @@ const Shop: React.FC = () => {
           ))}
         </div>
 
-        {/* Paginação */}
         <div className="pagination-buttons">
           {[...Array(Math.ceil(totalProducts / limit))].map((_, index) => (
             <button

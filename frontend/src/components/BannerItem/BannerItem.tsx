@@ -44,6 +44,7 @@ interface IPropsBanner {
   title?: string;
   linkHome?: string;
   linkShop?: string;
+  linkCategory?: string;
   p?: string;
   rectangleSrc?: string;
   icon?: string;
