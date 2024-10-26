@@ -3,9 +3,11 @@ import axios from "axios";
 import "./ProductList.css";
 import Product from "../../../components/ProductCard/ProductCard";
 import { Link, useNavigate } from "react-router-dom";
+import { ProductInterface } from "../../../components/ProductCard/ProductCard"; 
+
 
 const ProductsList: React.FC<IProps> = ({ title, limit = 8, isSinglePage }) => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ProductInterface[]>([]);
   const [visibleLimit, setVisibleLimit] = useState(limit);
   const navigate = useNavigate();
 
@@ -13,15 +15,19 @@ const ProductsList: React.FC<IProps> = ({ title, limit = 8, isSinglePage }) => {
     axios
       .get("http://localhost:3000/products")
       .then((response) => {
-        setProducts(response.data);
+        setProducts(response.data.items); 
       })
       .catch((error) => {
         console.error("Error fetching products:", error);
       });
   }, []);
 
+  if (!products || !Array.isArray(products)) {
+    return <div>No products available.</div>;
+  }
+
   const handleSeeDetails = (productId: number) => {
-    navigate(`/products/${productId}`)
+    navigate(`/products/${productId}`);
   };
 
   const handleShowMore = () => {
@@ -39,13 +45,17 @@ const ProductsList: React.FC<IProps> = ({ title, limit = 8, isSinglePage }) => {
       <div className="product-content">
         <h1 className="product-title-main">{title}</h1>
         <div className="product-flex">
-          {products.slice(0, visibleLimit).map((product) => (
-            <Product
-              key={product.id}
-              product={product}
-              onSeeDetails={handleSeeDetails}
-            />
-          ))}
+          {products.slice(0, visibleLimit).map(
+            (
+              product
+            ) => (
+              <Product
+                key={product.id}
+                product={product}
+                onSeeDetails={handleSeeDetails}
+              />
+            )
+          )}
         </div>
         {isSinglePage ? (
           <button className="show-more" onClick={handleShowMore}>
@@ -66,5 +76,6 @@ export interface IProps {
   limit?: number;
   isSinglePage?: boolean;
 }
+
 
 export default ProductsList;

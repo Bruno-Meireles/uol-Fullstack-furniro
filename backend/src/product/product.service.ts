@@ -13,28 +13,7 @@ import { ProductQueryDto } from './dto/product-query.dto';
 export class ProductService {
   constructor(private readonly prisma: PrismaService) {}
 
-  // async create(createProductDto: CreateProductDto): Promise<product> {
-  //   return this.prisma.product.create({
-  //     data: {
 
-  //       name: createProductDto.name,
-  //       sku: createProductDto.sku,
-  //       description: createProductDto.description,
-  //       large_description: createProductDto.large_description,
-  //       price: createProductDto.price,
-  //       discount_price: createProductDto.discount_price,
-  //       discount_percent: createProductDto.discount_percent,
-  //       is_new: createProductDto.is_new,
-  //       image_link: createProductDto.image_link,
-  //       other_images_link: createProductDto.other_images_link || [],
-  //       created_date: new Date(),
-  //       updated_date: new Date(),
-  //       category: {
-  //         connect: { id: createProductDto.category_id },
-  //       },
-  //     },
-  //   });
-  // }
   async create(createProductDto: CreateProductDto): Promise<product> {
     const { category_id, ...productData } = createProductDto;
 
