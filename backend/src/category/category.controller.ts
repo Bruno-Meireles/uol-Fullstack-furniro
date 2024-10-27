@@ -18,6 +18,10 @@ export class CategoryController {
   async findAll(): Promise<category[]> {
     return this.categoryService.findAll();
   }
+  @Get(':id')
+  async findOne(@Param('id') id: number): Promise<category> {
+    return this.categoryService.findOne(Number(id));
+  }
 
   @Delete(':id')
   async delete(@Param('id') id: number): Promise<category> {

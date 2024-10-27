@@ -8,7 +8,6 @@ import Home from "./pages/Home";
 import SingleProductPage from "./pages/SingleProductPage";
 import ProductsByCategory from "./components/ProductsByCategory/ProductsByCategory";
 
-
 const App: React.FC = () => {
   return (
     <Router>
@@ -19,10 +18,10 @@ const App: React.FC = () => {
         <Route path="/product" element={<Shop />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/products/:id" element={<SingleProductPage />} />
+        <Route path="/products/:id" element={<SingleProductPage />} /> 
         <Route
           path="/products/category/:categoryId"
-          element={<ProductsByCategory categoryId={1} />}
+          element={<ProductsByCategory />}
         />
       </Routes>
       <Footer />
