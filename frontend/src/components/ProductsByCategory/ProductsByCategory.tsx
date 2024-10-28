@@ -7,7 +7,7 @@ import Product, { ProductInterface } from "../ProductCard/ProductCard";
 
 const ProductsByCategory: React.FC = () => {
   const [products, setProducts] = useState<ProductInterface[]>([]);
-  const [categoryName, setCategoryName] = useState<string>('');
+  const [categoryName, setCategoryName] = useState<string>("");
   const { categoryId } = useParams<{ categoryId: string }>();
   const navigate = useNavigate();
 
@@ -16,15 +16,16 @@ const ProductsByCategory: React.FC = () => {
 
     const fetchCategory = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/categories/${categoryId}`);
+        const response = await fetch(
+          `http://localhost:3000/categories/${categoryId}`
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch category");
         }
         const data = await response.json();
-        setCategoryName(data.name);  
+        setCategoryName(data.name);
       } catch (error) {
         console.error("Error fetching category:", error);
-       
       }
     };
 
@@ -56,7 +57,7 @@ const ProductsByCategory: React.FC = () => {
         type={"tipo2"}
         linkHome="/"
         icon="/assets/icons/arrow.svg"
-        title={categoryName}  
+        title={categoryName}
         linkCategory={`/products/category/${categoryId}`}
       />
       <div className="product-list">
