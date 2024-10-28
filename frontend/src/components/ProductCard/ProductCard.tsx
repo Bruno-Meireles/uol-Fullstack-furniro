@@ -50,8 +50,10 @@ const Product: React.FC<IProps> = ({ product, onSeeDetails }) => {
         ) : (
           <p className="price">
             R$
-            <span className="price-value">
-              {parseFloat(product.price).toLocaleString("pt-BR")}
+            <span className="price-value-original">
+              {parseFloat(product.price).toLocaleString("pt-BR", {
+                minimumFractionDigits: 2,
+              })}
             </span>
           </p>
         )}
@@ -60,7 +62,7 @@ const Product: React.FC<IProps> = ({ product, onSeeDetails }) => {
   );
 };
 
-export  interface ProductInterface {
+export interface ProductInterface {
   id: number;
   name: string;
   description: string;
