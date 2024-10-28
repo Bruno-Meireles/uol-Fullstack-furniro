@@ -66,6 +66,7 @@ Atualizar um produto :PUT http://localhost:3000/products/:id
 Excluir um produto :DELETE http://localhost:3000/products/:id
 
 # API de Produtos
+
 ## Listar Produtos com Paginação e Filtragem
 Você pode listar produtos usando a seguinte rota, que suportam parâmetros de paginação e filtragem:
 
