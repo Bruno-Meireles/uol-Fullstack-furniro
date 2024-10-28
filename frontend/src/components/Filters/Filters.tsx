@@ -1,19 +1,6 @@
 import React from "react";
 
-interface FiltersProps {
-  categories: { id: number; name: string }[];
-  selectedCategories: number[];
-  showFilters: boolean;
-  toggleFilters: () => void;
-  handleFilterChange: (categoryId: number) => void;
-  showPaginationValue: number;
-  setShowPaginationValue: (value: number) => void;
-  shortValue: string;
-  setShortValue: (value: string) => void;
-  totalProducts: number;
-  limit: number;
-  offset: number;
-}
+
 
 const Filters: React.FC<FiltersProps> = ({
   categories,
@@ -103,5 +90,19 @@ const Filters: React.FC<FiltersProps> = ({
     </div>
   );
 };
+interface FiltersProps {
+  categories: { id: number; name: string }[];
+  selectedCategories: number[];
+  showFilters: boolean;
+  toggleFilters: () => void;
+  handleFilterChange: (categoryId: number) => void;
+  showPaginationValue: number;
+  setShowPaginationValue: (value: number) => void;
+  shortValue: string;
+  setShortValue: (value: string) => void;
+  totalProducts: number;
+  limit: number;
+  offset: number;
+}
 
 export default Filters;

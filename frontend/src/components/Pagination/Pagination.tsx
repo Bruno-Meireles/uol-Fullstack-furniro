@@ -1,12 +1,5 @@
 import React from "react";
 
-interface PaginationProps {
-  totalProducts: number;
-  limit: number;
-  currentPage: number;
-  handlePagination: (page: number) => void;
-}
-
 const Pagination: React.FC<PaginationProps> = ({
   totalProducts,
   limit,
@@ -46,5 +39,10 @@ const Pagination: React.FC<PaginationProps> = ({
     </div>
   );
 };
-
+interface PaginationProps {
+  totalProducts: number;
+  limit: number;
+  currentPage: number;
+  handlePagination: (page: number) => void;
+}
 export default Pagination;
