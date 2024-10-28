@@ -9,6 +9,7 @@ import "./Shop.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../../components/Pagination/Pagination";
+import Filters from "../../components/Filters/Filters";
 
 const Shop: React.FC = () => {
   const [products, setProducts] = useState<ProductInterface[]>([]);
@@ -120,7 +121,7 @@ const Shop: React.FC = () => {
         type="2"
       />
 
-      <div className="filters">
+      {/* <div className="filters">
         <div className="content">
           <div className="controls">
             <div className="controls-left">
@@ -190,7 +191,21 @@ const Shop: React.FC = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
+      <Filters
+        categories={categories}
+        selectedCategories={selectedCategories}
+        showFilters={showFilters}
+        toggleFilters={toggleFilters}
+        handleFilterChange={handleFilterChange}
+        showPaginationValue={showPaginationValue}
+        setShowPaginationValue={setShowPaginationValue}
+        shortValue={shortValue}
+        setShortValue={setShortValue}
+        totalProducts={totalProducts}
+        limit={limit}
+        offset={offset}
+      />
 
       <div className="product-content">
         <div className="product-flex">
