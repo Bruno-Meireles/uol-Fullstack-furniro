@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./ProductDetailItem.css";
 
 const ProductDetailItem: React.FC<ProductDetailItemProps> = ({
@@ -6,6 +6,15 @@ const ProductDetailItem: React.FC<ProductDetailItemProps> = ({
   quantity,
   handleQuantityChange,
 }) => {
+  const [mainImage, setMainImage] = useState(product.image_link); 
+    useEffect(() => {
+      setMainImage(product.image_link);
+    }, [product]);
+
+
+    const handleImageClick = (image: string) => {
+      setMainImage(image); 
+    };
   return (
     <section className="see-detail-product">
       <div className="content">
@@ -19,6 +28,7 @@ const ProductDetailItem: React.FC<ProductDetailItemProps> = ({
                     className="other-images-item"
                     src={image}
                     alt={`${product.name} image ${index + 1}`}
+                    onClick={() => handleImageClick(image)}
                   />
                 ))
               : null}
@@ -27,7 +37,7 @@ const ProductDetailItem: React.FC<ProductDetailItemProps> = ({
           <div className="image-big">
             <img
               className="image-big-detail"
-              src={product.image_link}
+              src={mainImage}
               alt={product.name}
             />
           </div>

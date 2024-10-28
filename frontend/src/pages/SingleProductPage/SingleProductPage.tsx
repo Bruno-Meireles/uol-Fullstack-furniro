@@ -8,14 +8,21 @@ import ProductDetailItem from "./ProductDetailItem/ProductDetailItem";
 const SingleProductPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<Product | null>(null);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
-     window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
     axios
       .get(`http://localhost:3000/products/${id}`)
       .then((response) => {
         setProduct(response.data);
+        return axios.get(
+          `http://localhost:3000/products?categoryId=${response.data.categoryId}`
+        );
+      })
+      .then((response) => {
+        setRelatedProducts(response.data);
       })
       .catch((error) => {
         console.error("Error fetching product details:", error);
@@ -60,7 +67,12 @@ const SingleProductPage: React.FC = () => {
       </section>
 
       <div className="separador"></div>
-      <ProductsList title="Related Products" limit={4} isSinglePage={true} />
+      <ProductsList
+        title="Related Products"
+        products={relatedProducts}
+        limit={4}
+        isSinglePage={true}
+      />
     </div>
   );
 };
@@ -75,7 +87,7 @@ interface Product {
   image_link: string;
   other_images_link: string[];
   is_new?: boolean;
-  sku: string
+  sku: string;
 }
 
 export default SingleProductPage;
