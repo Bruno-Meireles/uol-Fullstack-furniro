@@ -8,6 +8,8 @@ import "../../pages/Home/ProductList/ProductList.css";
 import "./Shop.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Pagination from "../../components/Pagination/Pagination";
+import Filters from "../../components/Filters/Filters";
 
 const Shop: React.FC = () => {
   const [products, setProducts] = useState<ProductInterface[]>([]);
@@ -26,7 +28,7 @@ const Shop: React.FC = () => {
   const navigate = useNavigate();
 
   const fetchProducts = useCallback(() => {
-      window.scrollTo(0,300 );
+    window.scrollTo(0, 300);
     let orderBy: string | undefined;
     if (shortValue === "Lowest price") {
       orderBy = "lowest";
@@ -119,77 +121,20 @@ const Shop: React.FC = () => {
         type="2"
       />
 
-      <div className="filters">
-        <div className="content">
-          <div className="controls">
-            <div className="controls-left">
-              <img
-                src="assets/icons/filtering.svg"
-                alt="Filter Icon"
-                className="icon-filter"
-              />
-              <div>
-                <button onClick={toggleFilters} className="filter-btn">
-                  Filter
-                </button>
-
-                {showFilters && (
-                  <div className="category-filters">
-                    {categories.map((category) => (
-                      <label key={category.id}>
-                        <input
-                          className="check"
-                          type="checkbox"
-                          value={category.id}
-                          onChange={() => handleFilterChange(category.id)}
-                          checked={selectedCategories.includes(category.id)}
-                        />
-                        {category.name}
-                      </label>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              <div className="pagination-info">
-                Showing {offset + 1}–{Math.min(offset + limit, totalProducts)}{" "}
-                of {totalProducts} results
-              </div>
-
-              <div className="controls-right">
-                <label htmlFor="show" className="label-filter">
-                  Show
-                </label>
-                <input
-                  type="number"
-                  id="show"
-                  name="show"
-                  min={1}
-                  value={showPaginationValue}
-                  onChange={(e) =>
-                    setShowPaginationValue(parseInt(e.target.value))
-                  }
-                  className="input"
-                />
-                <label htmlFor="short-by" className="label-filter">
-                  Sort by
-                </label>
-                <select
-                  id="short-by"
-                  name="short-by"
-                  value={shortValue}
-                  onChange={(e) => setShortValue(e.target.value)}
-                  className="input-short"
-                >
-                  <option value="Default">Default</option>
-                  <option value="Lowest price">Lowest</option>
-                  <option value="Highest price">Highest</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        <Filters
+        categories={categories}
+        selectedCategories={selectedCategories}
+        showFilters={showFilters}
+        toggleFilters={toggleFilters}
+        handleFilterChange={handleFilterChange}
+        showPaginationValue={showPaginationValue}
+        setShowPaginationValue={setShowPaginationValue}
+        shortValue={shortValue}
+        setShortValue={setShortValue}
+        totalProducts={totalProducts}
+        limit={limit}
+        offset={offset}
+      />
 
       <div className="product-content">
         <div className="product-flex">
@@ -201,27 +146,13 @@ const Shop: React.FC = () => {
             />
           ))}
         </div>
-
-        <div className="pagination-buttons">
-          {[...Array(Math.ceil(totalProducts / limit))].map((_, index) => (
-            <button
-              key={index}
-              className="pagination-button"
-              onClick={() => handlePagination(index + 1)}
-              disabled={index + 1 === currentPage}
-            >
-              {index + 1}
-            </button>
-          ))}
-          <button
-            className="pagination-button pagination-button-next"
-            onClick={() => handlePagination(currentPage + 1)}
-            disabled={currentPage >= Math.ceil(totalProducts / limit)}
-          >
-            Next
-          </button>
-        </div>
       </div>
+      <Pagination
+        totalProducts={totalProducts}
+        limit={limit}
+        currentPage={currentPage}
+        handlePagination={handlePagination}
+      />
 
       <Support />
     </section>
