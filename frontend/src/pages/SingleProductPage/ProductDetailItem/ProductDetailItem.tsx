@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ProductDetailItem.css";
 
 const ProductDetailItem: React.FC<ProductDetailItemProps> = ({
@@ -6,7 +6,11 @@ const ProductDetailItem: React.FC<ProductDetailItemProps> = ({
   quantity,
   handleQuantityChange,
 }) => {
-    const [mainImage, setMainImage] = useState(product.image_link); 
+  const [mainImage, setMainImage] = useState(product.image_link); 
+    useEffect(() => {
+      setMainImage(product.image_link);
+    }, [product]);
+
 
     const handleImageClick = (image: string) => {
       setMainImage(image); 
