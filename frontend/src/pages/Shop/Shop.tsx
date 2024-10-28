@@ -8,6 +8,7 @@ import "../../pages/Home/ProductList/ProductList.css";
 import "./Shop.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Pagination from "../../components/Pagination/Pagination";
 
 const Shop: React.FC = () => {
   const [products, setProducts] = useState<ProductInterface[]>([]);
@@ -26,7 +27,7 @@ const Shop: React.FC = () => {
   const navigate = useNavigate();
 
   const fetchProducts = useCallback(() => {
-      window.scrollTo(0,300 );
+    window.scrollTo(0, 300);
     let orderBy: string | undefined;
     if (shortValue === "Lowest price") {
       orderBy = "lowest";
@@ -201,27 +202,13 @@ const Shop: React.FC = () => {
             />
           ))}
         </div>
-
-        <div className="pagination-buttons">
-          {[...Array(Math.ceil(totalProducts / limit))].map((_, index) => (
-            <button
-              key={index}
-              className="pagination-button"
-              onClick={() => handlePagination(index + 1)}
-              disabled={index + 1 === currentPage}
-            >
-              {index + 1}
-            </button>
-          ))}
-          <button
-            className="pagination-button pagination-button-next"
-            onClick={() => handlePagination(currentPage + 1)}
-            disabled={currentPage >= Math.ceil(totalProducts / limit)}
-          >
-            Next
-          </button>
-        </div>
       </div>
+      <Pagination
+        totalProducts={totalProducts}
+        limit={limit}
+        currentPage={currentPage}
+        handlePagination={handlePagination}
+      />
 
       <Support />
     </section>
