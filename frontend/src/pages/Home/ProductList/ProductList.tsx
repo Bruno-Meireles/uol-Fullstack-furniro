@@ -71,6 +71,7 @@ export interface IProps {
   title?: string;
   limit?: number;
   isSinglePage?: boolean;
+  products?: ProductInterface[];
 }
 
 export default ProductsList;
