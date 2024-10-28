@@ -127,12 +127,18 @@ h3 {
 .price {
     font-family: var(--font-family);
     font-weight: var(--font-weight-600);
-    color: #3A3A3A;
-    ;
 }
 
 .price-value {
     margin-left: 5px;
+    color: #B0B0B0;
+
+}
+
+.price-value-original {
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-600);
+    color: #3A3A3A;
 }
 
 .original-price {
