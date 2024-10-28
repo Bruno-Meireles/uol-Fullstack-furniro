@@ -8,6 +8,7 @@ import ProductDetailItem from "./ProductDetailItem/ProductDetailItem";
 const SingleProductPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<Product | null>(null);
+  
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
