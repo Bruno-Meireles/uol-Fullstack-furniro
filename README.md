@@ -85,55 +85,12 @@ GET http://localhost:3000/products?limit=10&offset=0&categoryId=2&orderBy=price
 
 ## A resposta será um JSON com a lista de produtos filtrados e paginados, semelhante ao seguinte:
 
-{
-  "products": [
-    {
-      "id": 1,
-      "name": "Produto 1",
-      "price": 100.00,
-      "categoryId": 2,
-      ...
-    },
-    {
-      "id": 2,
-      "name": "Produto 2",
-      "price": 150.00,
-      "categoryId": 2,
-      ...
-    }
-  ],
-  "total": 50 
-}
+![image](https://github.com/user-attachments/assets/5311e2ec-cb29-4a39-8fe7-07103c45fd6b)
+
 
 
 
 # Estrutura do Projeto
 ## A estrutura do projeto é organizada da seguinte forma:
-uol-fullstack-furniro
-│
-├── frontend
-│   ├── public
-│   │   ├── assets
-│   │   │   ├── images
-│   │   │   └── icons
-│   │   └── index.html
-│   ├── src
-│   │   ├── components      # Componentes reutilizáveis
-│   │   ├── pages           # Páginas da aplicação
-│   │   ├── App.tsx         # Componente principal
-│   │   ├── index.tsx       # Ponto de entrada da aplicação
-│   │   └── styles          # Estilos globais
-│   └── package.json        # Dependências do front-end
-│
-└── backend
-    ├── src
-    │   ├── app.module.ts     # Módulo principal do NestJS
-    │   ├── app.controller.ts  # Controlador principal
-    │   ├── app.service.ts     # Serviço principal
-    │   ├── products           # Módulo de produtos
-    │   └── prisma             # Configurações do Prisma
-    ├── .env                   # Variáveis de ambiente
-    ├── prisma                 # Esquemas do Prisma
-    │   └── schema.prisma      # Esquema do banco de dados
-    ├── package.json           # Dependências do back-end
-    └── tsconfig.json          # Configuração do TypeScript
+![image](https://github.com/user-attachments/assets/8bba8589-b387-4417-8739-ee0ba06e590e)
+
