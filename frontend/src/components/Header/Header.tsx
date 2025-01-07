@@ -8,7 +8,7 @@ const Header: React.FC = () => {
         <nav className="header-container">
           <div className="Logo">
             <img src="/assets/icons/logo.svg" alt="" />
-            <h2>Furniro</h2>
+            <h2>Smart Tech</h2>
           </div>
           <ul className="list">
             <li className="item">
