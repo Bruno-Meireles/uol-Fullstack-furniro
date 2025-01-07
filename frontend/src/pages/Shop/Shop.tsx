@@ -1,109 +1,112 @@
 import { useEffect, useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 import BannerItem from "../../components/BannerItem/BannerItem";
 import Support from "../../components/Support/Support";
-import Product, {
+import ProductCard, {
   ProductInterface,
 } from "../../components/ProductCard/ProductCard";
-import "../../pages/Home/ProductList/ProductList.css";
-import "./Shop.css";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import Pagination from "../../components/Pagination/Pagination";
 import Filters from "../../components/Filters/Filters";
 
+import "./Shop.css";
+
 const Shop: React.FC = () => {
+  const navigate = useNavigate();
+
+  // Estados principais
   const [products, setProducts] = useState<ProductInterface[]>([]);
-  const [showPaginationValue, setShowPaginationValue] = useState<number>(16);
-  const [shortValue, setShortValue] = useState<string>("Default");
   const [categories, setCategories] = useState<{ id: number; name: string }[]>(
     []
   );
-  const [currentPage, setCurrentPage] = useState<number>(1);
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
-  const [showFilters, setShowFilters] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalProducts, setTotalProducts] = useState<number>(0);
 
-  const limit = showPaginationValue;
-  const offset = (currentPage - 1) * limit;
-  const navigate = useNavigate();
+  // Filtros e ordenação
+  const [itemsPerPage, setItemsPerPage] = useState<number>(16);
+  const [sortOrder, setSortOrder] = useState<string>("Default");
+  const [showFilters, setShowFilters] = useState<boolean>(false);
 
+  // Cálculo de paginação
+  const limit = itemsPerPage;
+  const offset = (currentPage - 1) * limit;
+
+  // Função para buscar produtos
   const fetchProducts = useCallback(() => {
     window.scrollTo(0, 300);
-    let orderBy: string | undefined;
-    if (shortValue === "Lowest price") {
-      orderBy = "lowest";
-    } else if (shortValue === "Highest price") {
-      orderBy = "highest";
-    } else {
-      orderBy = undefined;
-    }
+
+    const orderBy =
+      sortOrder === "Lowest price"
+        ? "lowest"
+        : sortOrder === "Highest price"
+        ? "highest"
+        : undefined;
 
     axios
-      .get(`http://localhost:3000/products`, {
+      .get("http://localhost:3000/products", {
         params: {
           limit,
-          orderBy,
           offset,
-          selectedCategories: selectedCategories.join(","), // Passando como string
+          orderBy,
+          selectedCategories: selectedCategories.join(","),
         },
       })
       .then((response) => {
-        const allProducts = response.data.items;
+        setProducts(response.data.items);
         setTotalProducts(response.data.totalCount);
-        setProducts(allProducts); // O back-end já faz a filtragem
       })
-      .catch((error) => {
-        console.error("Error fetching products:", error);
-      });
-  }, [selectedCategories, limit, shortValue, offset]);
+      .catch((error) => console.error("Error fetching products:", error));
+  }, [limit, offset, sortOrder, selectedCategories]);
 
-  const fetchCategories = () => {
+  // Função para buscar categorias
+  const fetchCategories = useCallback(() => {
     axios
       .get("http://localhost:3000/categories")
-      .then((response) => {
-        setCategories(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching categories:", error);
-      });
-  };
+      .then((response) => setCategories(response.data))
+      .catch((error) => console.error("Error fetching categories:", error));
+  }, []);
 
+  // Função para alterar filtros de categorias
   const handleFilterChange = (categoryId: number) => {
-    setSelectedCategories((prevSelected) => {
-      const newSelected = prevSelected.includes(categoryId)
-        ? prevSelected.filter((id) => id !== categoryId)
-        : [...prevSelected, categoryId];
-
-      setCurrentPage(1);
-      return newSelected;
-    });
+    setSelectedCategories((prev) =>
+      prev.includes(categoryId)
+        ? prev.filter((id) => id !== categoryId)
+        : [...prev, categoryId]
+    );
+    setCurrentPage(1); // Resetar para a primeira página ao alterar filtros
   };
 
+  // Função para navegar para detalhes do produto
   const handleSeeDetails = (productId: number) => {
     navigate(`/products/${productId}`);
   };
 
-  const toggleFilters = () => {
-    setShowFilters((prevShowFilters) => !prevShowFilters);
-  };
+  // Alternar exibição de filtros
+  const toggleFilters = () => setShowFilters((prev) => !prev);
 
+  // Gerenciar navegação de paginação
   const handlePagination = (page: number) => {
     if (page > 0 && page <= Math.ceil(totalProducts / limit)) {
       setCurrentPage(page);
     }
   };
 
+  // Buscar categorias e produtos na inicialização
   useEffect(() => {
     fetchCategories();
     fetchProducts();
-  }, [fetchProducts]);
+  }, [fetchCategories, fetchProducts]);
 
+  // Atualizar produtos ao alterar filtros ou página
   useEffect(() => {
     fetchProducts();
-  }, [selectedCategories, currentPage, fetchProducts]);
+  }, [fetchProducts]);
 
   return (
     <section className="shop-page">
+      {/* Banner */}
       <BannerItem
         imgUrl="/assets/images/RectangleImage.png"
         icon="/assets/icons/arrow.svg"
@@ -119,19 +122,20 @@ const Shop: React.FC = () => {
         showFilters={showFilters}
         toggleFilters={toggleFilters}
         handleFilterChange={handleFilterChange}
-        showPaginationValue={showPaginationValue}
-        setShowPaginationValue={setShowPaginationValue}
-        shortValue={shortValue}
-        setShortValue={setShortValue}
+        showPaginationValue={itemsPerPage} // Altere o nome
+        setShowPaginationValue={setItemsPerPage} // Altere o nome
+        shortValue={sortOrder} // Altere o nome
+        setShortValue={setSortOrder} // Altere o nome
         totalProducts={totalProducts}
-        limit={limit}
-        offset={offset}
+        limit={itemsPerPage} // Inclua se necessário
+        offset={(currentPage - 1) * itemsPerPage} // Inclua se necessário
       />
 
+      {/* Lista de produtos */}
       <div className="product-content">
         <div className="product-flex">
           {products.map((product) => (
-            <Product
+            <ProductCard
               key={product.id}
               product={product}
               onSeeDetails={handleSeeDetails}
@@ -139,6 +143,8 @@ const Shop: React.FC = () => {
           ))}
         </div>
       </div>
+
+      {/* Paginação */}
       <Pagination
         totalProducts={totalProducts}
         limit={limit}
@@ -146,6 +152,7 @@ const Shop: React.FC = () => {
         handlePagination={handlePagination}
       />
 
+      {/* Suporte */}
       <Support />
     </section>
   );

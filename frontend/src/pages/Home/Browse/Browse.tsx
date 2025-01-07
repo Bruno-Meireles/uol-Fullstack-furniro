@@ -33,7 +33,7 @@ const Browse: React.FC = () => {
         <BrowseItem
           imageUrl="/assets/images/Mask-plant.png"
           title="Bedroom"
-          link="/products/category/1"
+          link="/products/category/1" 
         />
       </div>
     </section>
