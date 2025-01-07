@@ -49,4 +49,8 @@ export class CreateProductDto {
   @IsArray()
   @IsString({ each: true })
   other_images_link?: string[];
+
+  @IsOptional()
+  @IsString()
+  selectedCategories?: string;
 }

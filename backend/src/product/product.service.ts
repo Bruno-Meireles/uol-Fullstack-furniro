@@ -31,7 +31,7 @@ export class ProductService {
   }
 
   sanitizePayload(queryParams: ProductQueryDto) {
-    const { limit, offset, categoryId, orderBy } = queryParams;
+    const { limit, offset, orderBy, selectedCategories } = queryParams;
     const MAX_LIMIT = 100;
 
     let orderByCondition;
@@ -48,9 +48,15 @@ export class ProductService {
       orderBy: orderByCondition,
     };
 
-    if (categoryId) {
-      result.where = { category_id: parseInt(categoryId.toString(), 10) };
+    if (selectedCategories) {
+      const categoriesArray = selectedCategories.split(',').map(Number);
+      result.where = {
+        category_id: {
+          in: categoriesArray,
+        },
+      };
     }
+
     return result;
   }
 

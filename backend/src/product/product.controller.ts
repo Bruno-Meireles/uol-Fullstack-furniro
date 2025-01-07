@@ -13,8 +13,9 @@ import {
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/updateProductDto';
-import { ProductQueryDto } from './dto/product-query.dto';
+ import { ProductQueryDto } from './dto/product-query.dto';
 import { product } from '@prisma/client';
+
 
 @Controller('products')
 export class ProductController {
@@ -48,6 +49,7 @@ export class ProductController {
   findOne(@Param('id') id: number) {
     return this.productService.findOne(id);
   }
+
   @Put(':id')
   update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
     const productId = parseInt(id, 10);
@@ -56,6 +58,7 @@ export class ProductController {
     }
     return this.productService.update(productId, updateProductDto);
   }
+
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.productService.remove(id);

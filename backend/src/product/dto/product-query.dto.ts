@@ -1,12 +1,11 @@
-import { IsOptional, IsEnum, IsInt } from 'class-validator';
+import { IsOptional, IsEnum, IsInt, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export enum OrderBy {
   DEFAULT = 'default',
   LOWEST = 'lowest',
-  HIGHEST = 'highest', 
+  HIGHEST = 'highest',
 }
-
 
 export class ProductQueryDto {
   @IsOptional()
@@ -27,4 +26,8 @@ export class ProductQueryDto {
   @IsOptional()
   @IsEnum(OrderBy)
   orderBy?: OrderBy;
+
+  @IsOptional()
+  @IsString()
+  selectedCategories?: string; 
 }

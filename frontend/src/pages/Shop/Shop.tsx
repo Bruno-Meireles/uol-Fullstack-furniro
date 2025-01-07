@@ -44,21 +44,13 @@ const Shop: React.FC = () => {
           limit,
           orderBy,
           offset,
-          selectedCategories,
+          selectedCategories: selectedCategories.join(","), // Passando como string
         },
       })
       .then((response) => {
         const allProducts = response.data.items;
         setTotalProducts(response.data.totalCount);
-
-        const filteredProducts =
-          selectedCategories.length > 0
-            ? allProducts.filter((product: { category_id: number }) =>
-                selectedCategories.includes(product.category_id)
-              )
-            : allProducts;
-
-        setProducts(filteredProducts);
+        setProducts(allProducts); // O back-end já faz a filtragem
       })
       .catch((error) => {
         console.error("Error fetching products:", error);
@@ -121,7 +113,7 @@ const Shop: React.FC = () => {
         type="2"
       />
 
-        <Filters
+      <Filters
         categories={categories}
         selectedCategories={selectedCategories}
         showFilters={showFilters}
